@@ -1,0 +1,15 @@
+.nav-stack-header {
+  margin-top: 18px; 
+  a {
+    &:hover {
+      background-color: #38527F !important;
+    }
+  }
+}
+
+.brand {
+  &:hover {
+    background-color: #000;
+    color: #FFF;
+  }
+}

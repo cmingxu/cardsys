@@ -1,8 +1,8 @@
 # -*- encoding : utf-8 -*-
 class RenameOrderDelete < ActiveRecord::Migration
   def up
-    p = Power.find_by_subject("删除场地预定")
-    p.update_attribute("subject", "取消场地")
+    #p = Power.find_by_subject("删除场地预定")
+    #p.update_attribute("subject", "取消场地")
   end
 
   def down

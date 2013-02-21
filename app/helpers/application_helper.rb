@@ -2,7 +2,10 @@
 module ApplicationHelper
 
   def left_nav_active?(url)
-    url_for(:controller => controller_name, :action => action_name).start_with?(url) ? "active" : ""
+    # current_url = url_for(:controller => controller_name, :action_name => action_name)
+    url_hash = Rails.application.routes.recognize_path(url)
+    (url_hash[:controller] == controller_name and url_hash[:action] == action_name) ? "active" : ''
+    # current_url.start_with?(url) ? "active" : ""
   end
 
   def current_active_courts_tab

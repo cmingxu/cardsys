@@ -2,8 +2,8 @@
 #
 class ChangeRentManagmentRecord < ActiveRecord::Migration
   def up
-    p = Power.find_by_subject("出租管理")
-    p.update_attribute("subject", "租用记录")
+    #p = Power.find_by_subject("出租管理")
+    #p.update_attribute("subject", "租用记录")
   end
 
   def down
