@@ -56,6 +56,12 @@ production: &default
   # 低于此时间不得开场(分钟)
   active_time: 30
 
+  # 一天开始时间
+  start_hour: 7
+
+  # 一天的结束时间
+  end_hour: 24
+
 test:
   <<: *default
 

@@ -7,8 +7,7 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
-User.create(:login => "admin",:password => "admin01",:password_confirmation => "admin01",:user_name => "超级管理员")
-
+user = User.create(:login => "admin",:password => "admin01",:password_confirmation => "admin01",:user_name => "超级管理员")
 
 
 Power.delete_all

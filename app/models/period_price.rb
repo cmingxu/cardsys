@@ -3,24 +3,14 @@ class PeriodPrice < ActiveRecord::Base
 
   has_many :card_period_prices
 
-  scope :search_order, PeriodPrice.order("period_type desc, name desc, created_at desc")
-
   validates :name,  :presence => {:message => "时段名称不能为空！"}
   validates :price, :numericality => {:message => "时段价格必须为数字！"}
-  #validates :period_type, :uniqueness => {:scope => [:start_time, :end_time], :message => "该价格时段已经存在，请重新设置价格时段！"}
 
   validate :validate_start_time_end_time
 
-  PERIOD_START_TIME, PERIOD_END_TIME  = 7, 24
 
   def validate_start_time_end_time
     self.errors.add(:base, "开始时间应小于结束时间") if self.start_time >= self.end_time 
-    #conflict_period = self.class.where(["start_time < :end_time AND end_time > :start_time AND period_type=#{period_type}",
-    #    {:start_time => start_time,:end_time => end_time}])
-    #conflict_period = conflict_period.where("id <> #{id}") unless new_record?
-    #if conflict_period.first
-    #  errors['base'] << "时段冲突，#{start_time}-#{end_time}已经存在"
-    #end
   end
 
   def period_type_in_chinese
@@ -33,16 +23,16 @@ class PeriodPrice < ActiveRecord::Base
   end
 
   def is_in_time_span(date = Date.today, start_hour = nil, end_hour = nil)
-    start_hour ||= PERIOD_START_TIME
-    end_hour   ||= PERIOD_END_TIME
+    start_hour ||= SiteSetting.start_hour
+    end_hour   ||= SiteSetting.end_hour
     date_type = CommonResource.date_type(date||Date.today)
     date_type && period_type == date_type.id && start_time < end_hour && end_time > start_hour
   end
 
   #取得某一天中给定时间段的时段价格
   def self.all_periods_in_time_span(date = Date.today, start_time=nil, end_time=nil)
-    start_time ||= PERIOD_START_TIME
-    end_time   ||= PERIOD_END_TIME
+    start_time ||= SiteSetting.start_hour
+    end_time   ||= SiteSetting.end_hour
     date_type = CommonResource.date_type(date || Date.today)
     pp = PeriodPrice.where(:period_type => date_type.id).order("start_time asc")
     pp.select{ |element| element.start_time < end_time && element.end_time > start_time }

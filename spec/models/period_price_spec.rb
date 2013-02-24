@@ -2,5 +2,10 @@
 require 'spec_helper'
 
 describe PeriodPrice do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before :each do 
+
+  end
+
+  it { should have_many(:card_period_prices) }
+
 end
