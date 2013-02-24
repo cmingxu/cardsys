@@ -24,6 +24,7 @@ gem 'bootstrap-will_paginate'
 group :test, :development do
   gem 'rails3-generators'
   gem 'rspec-rails'
+  gem 'spork', '~> 1.0rc'
   gem 'shoulda-matchers'
 end
 
