@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class MembersCard < ActiveRecord::Base
-  set_table_name 'member_cards'
+  self.table_name = 'member_cards'
 
   include Authenticateable
   include HashColumnState

@@ -21,10 +21,10 @@ gem 'bootstrap-will_paginate'
 
 
 
-group :test do
+group :test, :development do
   gem 'rails3-generators'
   gem 'rspec-rails'
-  gem "shoulda-matchers"
+  gem 'shoulda-matchers'
 end
 
 gem 'twitter-bootstrap-rails', '2.0.3'
