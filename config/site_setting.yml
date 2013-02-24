@@ -1,0 +1,56 @@
+# 卡内次数小于此值时候报警
+minimum_warn_count: 2
+
+# 卡内钱数小于次值时候报警
+minimum_warn_amount: 1000
+
+# 时间早于此值时候可以取消预订
+can_cancel_time_before_activate: <%= 1.day %>
+
+# 在此时间内可以预订
+can_book_time_before_book: <%= 7.day %>
+
+# 网站的中文title
+site_name: "国家网球中心"
+
+# 网站的url
+site_url: "http://www.broadwell.cn"
+
+# 是否支持条码扫描
+barcode_scanner_enabled: true
+
+# 月开始时间
+financial_begin_day_of_every_month: 25
+
+# session 页面的图片
+user_session_image: "user_session_new.jpg"
+
+# 卡类型
+card_type: ["储值卡", "会员卡", "记次卡", "资格卡"]
+
+# 时段类型
+period_type: ["夏令时", "冬令时", "节假日"]
+
+# 教练类型
+coach_type: ["全职教练", "客人自带"] 
+
+# 证件类型
+cert_type: ["身份证", "军官证"]
+
+# 球场类型
+court_type: ["网球", "羽毛球", "足球", "篮球", "排球"]
+
+# 商品来源
+good_source: ["代卖"]
+
+# 夏令时月份
+summer_months: (1..12).to_a
+
+# 低于此时间不得取消(小时)
+cancel_time_limit: 24
+
+# 少于此时间不的变更(小时)
+change_time: 0
+
+# 低于此时间不得开场(分钟)
+active_time: 30

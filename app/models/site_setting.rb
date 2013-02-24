@@ -1,5 +1,9 @@
 # -*- encoding : utf-8 -*-
-class Setting
+class SiteSetting < SettingsLogic
+  source "#{Rails.root}/config/site_setting.yml"
+  namespace Rails.env
+  load!
+
   class << self
     include ActionView::Helpers::FormOptionsHelper
 
@@ -16,11 +20,11 @@ class Setting
     end
 
     def can_book_time_before_book
-     7.day 
+      7.day 
     end
 
     def site_name
-       #"国家网球中心"
+      #"国家网球中心"
       "博徳维网球中心"
     end
 
@@ -29,20 +33,20 @@ class Setting
     end
 
     def coach_types
-     ["全职教练", "客人自带"] 
+      ["全职教练", "客人自带"] 
     end
 
     def cert_type_options(default_value)
-       options_for_select(CommonResource.options_by_identifier("cert_type").collect{ |crd| [crd.detail_name, crd.id] }, default_value)
+      options_for_select(CommonResource.options_by_identifier("cert_type").collect{ |crd| [crd.detail_name, crd.id] }, default_value)
     end
 
     def good_source_options(default_value = 0)
-       options_for_select(CommonResource.options_by_identifier("good_source").collect{ |crd| [crd.detail_name, crd.id] }.unshift(["全部", "0"]), default_value)
+      options_for_select(CommonResource.options_by_identifier("good_source").collect{ |crd| [crd.detail_name, crd.id] }.unshift(["全部", "0"]), default_value)
     end
 
 
     def court_type_options(default_value)
-       options_for_select(CommonResource.options_by_identifier("court_type").collect{ |crd| [crd.detail_name, crd.id] }, default_value)
+      options_for_select(CommonResource.options_by_identifier("court_type").collect{ |crd| [crd.detail_name, crd.id] }, default_value)
     end
 
     def court_types
@@ -58,7 +62,7 @@ class Setting
     end
 
     def locker_type_options(default_value)
-       options_for_select(CommonResource.options_by_identifier("locker_type").collect{ |crd| [crd.detail_name, crd.id] }, default_value)
+      options_for_select(CommonResource.options_by_identifier("locker_type").collect{ |crd| [crd.detail_name, crd.id] }, default_value)
     end
 
     # 是否支持条码扫描
