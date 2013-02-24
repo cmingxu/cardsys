@@ -5,8 +5,6 @@ Cardsys::Application.routes.draw do
 
   get "powers/edit"
 
-  resources :common_resource_details
-
   resources :rents
 
   resources :lockers do
