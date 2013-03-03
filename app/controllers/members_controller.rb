@@ -137,7 +137,7 @@ class MembersController < ApplicationController
   end
 
   def new
-    @member = Member.new(:gender => CommonResource::Gender_Man)
+    @member = Member.new
     @member.granter = true if params[:members_card_id]
     @member.members_card_id = params[:members_card_id] if params[:members_card_id]
   end

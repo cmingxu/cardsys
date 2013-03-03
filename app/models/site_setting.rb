@@ -2,7 +2,7 @@
 #
 module Setting2SelectOptions
   include ActionView::Helpers::FormOptionsHelper 
-  
+
   def to_options(key, default_value = nil)
     raise ArgumentError unless self.respond_to?(key)
     raise ArgumentError unless self.send(key).is_a?(Array)
@@ -11,9 +11,37 @@ module Setting2SelectOptions
   end
 end
 
+module DateTypeDeteminer
+  # 看来这里得缓存到redis里面了
+  def date_type(date = Date.today)
+    if is_workday?(date)
+      is_summer?(date) ?  "夏令时" : "冬令时"
+    else
+      "节假日"
+    end
+  end
+
+  def is_workday?(date)
+    is_user_defined_workday?(date) || (date.weekday? and !is_user_defined_holiday?(date))
+  end
+
+  def is_user_defined_holiday?(date)
+    Vacation.all.any? {|v| v.includes?(date) and v.is_holiday? }
+  end
+
+  def is_user_defined_workday?(date)
+    Vacation.all.any? {|v| v.includes?(date) and v.is_workday? }
+  end
+
+  def is_summer?(date)
+    SiteSetting.summer_months.include?(date.month) 
+  end
+end
+
 
 class SiteSetting < Settingslogic
   extend Setting2SelectOptions
+  extend DateTypeDeteminer
 
   source "#{Rails.root}/config/site_setting.yml"
   namespace Rails.env

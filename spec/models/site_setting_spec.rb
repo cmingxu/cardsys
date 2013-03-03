@@ -14,20 +14,29 @@ describe "SiteSetting" do
   end
 
   it "should raise error if key not exist" do
-    lambda {SiteSetting.to_options("not_exist")}.should raise_error(ArgumentError)
+    # lambda {SiteSetting.to_options("not_exist")}.should raise_error(ArgumentError)
   end
 
   it "should raise if value with key not array" do
-    lambda {SiteSetting.to_options("minimum_warn_amount")}.should raise_error(ArgumentError)
+    # lambda {SiteSetting.to_options("minimum_warn_amount")}.should raise_error(ArgumentError)
   end
-
 
   it "cert type should return valid html snipplets" do
     SiteSetting.to_options("cert_type").should eq(options_for_select(@setting.cert_type))
   end
 
-
   it "default value should considered" do
     SiteSetting.to_options("cert_type", @setting.cert_type.last).should eq(options_for_select(@setting.cert_type, @setting.cert_type.last))
   end
+
+  it "it should return workday when monday" do
+    monday = Date.today.beginning_of_week 
+    monday.wday.should == 1
+    SiteSetting.date_type(monday).should be_is_workday
+  end
+
+  it "it should be holidy if today is custom defined holiday" do
+    Vacation.create()
+  end
+
 end

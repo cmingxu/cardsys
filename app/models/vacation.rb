@@ -42,6 +42,10 @@ class Vacation < ActiveRecord::Base
     false
   end
 
+  def includes?(date)
+    self.start_date <= date and date <= self.end_date     
+  end
+
   def is_holiday?
     self.vacation_type == "holiday"
   end

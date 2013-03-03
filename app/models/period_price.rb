@@ -13,19 +13,14 @@ class PeriodPrice < ActiveRecord::Base
     self.errors.add(:base, "开始时间应小于结束时间") if self.start_time >= self.end_time 
   end
 
-  def period_type_in_chinese
-    CommonResourceDetail.find(period_type).detail_name
-  end
-
   def is_fit_for?(date)
-    date_type = CommonResource.date_type(date)
-    self.period_type.to_i == date_type.id
+    period_type == SiteSetting.date_type(date)
   end
 
   def is_in_time_span(date = Date.today, start_hour = nil, end_hour = nil)
     start_hour ||= SiteSetting.start_hour
     end_hour   ||= SiteSetting.end_hour
-    date_type = CommonResource.date_type(date||Date.today)
+    date_type = SiteSetting.date_type(date||Date.today)
     date_type && period_type == date_type.id && start_time < end_hour && end_time > start_hour
   end
 
@@ -33,14 +28,14 @@ class PeriodPrice < ActiveRecord::Base
   def self.all_periods_in_time_span(date = Date.today, start_time=nil, end_time=nil)
     start_time ||= SiteSetting.start_hour
     end_time   ||= SiteSetting.end_hour
-    date_type = CommonResource.date_type(date || Date.today)
+    date_type = SiteSetting.date_type(date || Date.today)
     pp = PeriodPrice.where(:period_type => date_type.id).order("start_time asc")
     pp.select{ |element| element.start_time < end_time && element.end_time > start_time }
   end
 
 
   def self.period_by_date_and_start_hour(date, start_hour)
-    date_type = CommonResource.date_type(date)
+    date_type = SiteSetting.date_type(date)
     pp = PeriodPrice.where(:period_type => date_type.id)
     pp.select { |element| element.start_time <= start_hour && element.end_time >= start_hour + 1}
   end
