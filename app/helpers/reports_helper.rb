@@ -26,7 +26,7 @@ module ReportsHelper
 
     table = ''
     table << "<table class='report_table' border=1>"
-    table <<("<caption><h1>#{Setting.site_name}#{date.to_s(:db)}收入日报表"+ "</h1></caption>")
+    table <<("<caption><h1>#{SiteSetting.site_name}#{date.to_s(:db)}收入日报表"+ "</h1></caption>")
     # first tr
     table <<("<tr class='head'>")
     table <<("<td colspan=3>日期 #{ select_year(date, {:start_year => 2010,:end_year => 2016},:onchange => "recalculate();")} 年 " + 
@@ -91,7 +91,7 @@ module ReportsHelper
 
     table = ''
     table << "<table class='report_table' border=1>"
-    table <<("<caption><h1>" + Setting.site_name +  "#{date.strftime("%y-%m")}收入月报表"+ "</h1></caption>")
+    table <<("<caption><h1>" + SiteSetting.site_name +  "#{date.strftime("%y-%m")}收入月报表"+ "</h1></caption>")
     # first tr%
     table <<("<tr class='head'>")
     table <<("<td colspan=3>日期 #{ select_year(date,{:start_year => 2008,:end_year => Date.today.year},:onchange => "recalculate();")} 年 " + 
@@ -114,7 +114,7 @@ module ReportsHelper
     table << "</tr>"
 
     # data tr
-    CustomDateForReport.new(date, Setting.financial_begin_day_of_every_month).each_day_of_this_financial_month do |day|
+    CustomDateForReport.new(date, SiteSetting.financial_begin_day_of_every_month).each_day_of_this_financial_month do |day|
       current_date = day
       table << "<tr class='report_item'>"
       table <<"<td>#{current_date.month}/#{current_date.day}</td>"

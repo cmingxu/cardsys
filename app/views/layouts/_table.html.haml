@@ -4,7 +4,7 @@
       %th 编号
       - columns.each_value do |v|
         %th= v
-      - if !defined?no_operation
+      - if !defined?(no_operation)
         %th 操作
 
   %tbody

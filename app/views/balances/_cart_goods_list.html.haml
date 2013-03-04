@@ -19,7 +19,7 @@
     = form_tag "/goods/add_to_cart" do
       = hidden_field_tag :good_id, :id => "good_id"
       %td{:colspan=>7, :style => "text-align: right;"}
-        - if Setting.barcode_scanner_enabled
+        - if SiteSetting.barcode_scanner_enabled
           = text_field_tag "barcode", "", :id => "barcode"
         - else
           = "商品类型: "

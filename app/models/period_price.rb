@@ -29,14 +29,15 @@ class PeriodPrice < ActiveRecord::Base
     start_time ||= SiteSetting.start_hour
     end_time   ||= SiteSetting.end_hour
     date_type = SiteSetting.date_type(date || Date.today)
-    pp = PeriodPrice.where(:period_type => date_type.id).order("start_time asc")
+    #pp = PeriodPrice.where(:period_type => date_type.id).order("start_time asc")
+    pp = PeriodPrice.where(:period_type => date_type).order("start_time asc")
     pp.select{ |element| element.start_time < end_time && element.end_time > start_time }
   end
 
 
   def self.period_by_date_and_start_hour(date, start_hour)
     date_type = SiteSetting.date_type(date)
-    pp = PeriodPrice.where(:period_type => date_type.id)
+    pp = PeriodPrice.where(:period_type => date_type)
     pp.select { |element| element.start_time <= start_hour && element.end_time >= start_hour + 1}
   end
 
