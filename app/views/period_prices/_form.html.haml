@@ -5,7 +5,7 @@
     = f.text_field :name
 
   - control_helper("period_type", "时段类型") do
-    = f.select :period_type, options_for_select(CommonResource.options_by_identifier("period_type").collect{|a| [a.detail_name, a.id]}, @period_price.period_type)
+    = f.select :period_type, SiteSetting.to_options("period_type", @period_price.period_type)
 
 
   - control_helper("start_time", "开始时间") do

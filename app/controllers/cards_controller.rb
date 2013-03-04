@@ -8,12 +8,12 @@ class CardsController < ApplicationController
 
   def new
     @card = Card.new
-    @period_prices = PeriodPrice.search_order
+    @period_prices = PeriodPrice.order("start_time")
   end
 
   def create
     @card = Card.new(params[:card])
-    @period_prices = PeriodPrice.search_order
+    @period_prices = PeriodPrice.order("start_time")
     #设置卡的时段价格
     format_card_period_price @card 
 
@@ -65,7 +65,7 @@ class CardsController < ApplicationController
 
   private
   def format_card_period_price(card)
-    for period_price in PeriodPrice.search_order
+    for period_price in PeriodPrice.order("start_time")
       #被选中可用的时段
       if params["time_available_#{period_price.id}"]
         price = params["time_discount_#{period_price.id}"]
@@ -80,7 +80,7 @@ class CardsController < ApplicationController
 
   def load_card 
     @card = Card.find(params[:id])    
-    @period_prices = PeriodPrice.search_order
+    @period_prices = PeriodPrice.order("start_time")
     @goods = Good.enabled
   end
 end
