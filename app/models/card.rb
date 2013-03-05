@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Card < ActiveRecord::Base
   include HashColumnState
+  include Clientable
 
   CONSUME_TYPE_1 = 1 #场地消费
   CONSUME_TYPE_2 = 2 #可买商品

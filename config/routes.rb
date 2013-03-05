@@ -1,6 +1,10 @@
 # -*- encoding : utf-8 -*-
 Cardsys::Application.routes.draw do 
 
+  devise_for :identities
+
+  resources :clients
+
   get "powers/index"
 
   get "powers/edit"

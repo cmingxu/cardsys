@@ -2,6 +2,8 @@
 class User < ActiveRecord::Base
   include HasPinyinColumn
   include HashColumnState
+  include Clientable
+
   set_pinyin_field :user_name_pinyin, :user_name
 
   has_many :department_users

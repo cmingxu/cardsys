@@ -5,7 +5,6 @@ gem 'rails', '3.2.1'
 
 gem 'mysql2'
 
-
 gem 'rails3-jquery-autocomplete', '>= 0.2.0'
 gem 'acts_as_tree'
 gem 'state_machine', '1.1.0'
@@ -15,7 +14,7 @@ gem 'awesome_print', :require => 'ap'
 gem 'authlogic', '3.1.0'
 
 gem 'settingslogic'
-
+gem 'devise'
 
 gem 'bootstrap-will_paginate'
 

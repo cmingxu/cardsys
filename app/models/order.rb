@@ -7,6 +7,8 @@ class Order < ActiveRecord::Base
             "cancel_want_sell" => "取消代卖",
             "cancel"           => "取消预订" }
   include Authenticateable
+  include Clientable
+
   belongs_to  :user
   belongs_to  :members_card
   belongs_to  :advanced_order

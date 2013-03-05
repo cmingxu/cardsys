@@ -2,6 +2,7 @@
 class Member < ActiveRecord::Base
   include HashColumnState
   include HasPinyinColumn
+  include Clientable
 
   scope :autocomplete_for, lambda {|name| 
     where("state= 'enabled' and (LOWER(name_pinyin) LIKE :member_name or LOWER(name) like :member_name or LOWER(pinyin_abbr) like :member_name)", {:member_name => "#{name.downcase}%"}).limit(10).order("pinyin_abbr ASC") }

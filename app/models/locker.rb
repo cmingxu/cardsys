@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Locker < ActiveRecord::Base
+  include Clientable
 
   LOCKER_STATE = {:empty => "未使用",:rented => "出租中"}
   validates :num,:presence => true

@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Court < ActiveRecord::Base
   include HashColumnState
+  include Clientable
 
   has_many :court_period_prices
   has_many :period_prices, :through => :court_period_prices

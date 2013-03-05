@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class PeriodPrice < ActiveRecord::Base
+  include Clientable
 
   has_many :card_period_prices
 

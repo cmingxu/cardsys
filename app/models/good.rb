@@ -2,6 +2,7 @@
 class Good < ActiveRecord::Base
   include HashColumnState
   include HasPinyinColumn
+  include Clientable
 
   set_abbr_field :pinyin_abbr, :name
 

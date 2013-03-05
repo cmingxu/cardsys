@@ -2,6 +2,7 @@
 class Coach < ActiveRecord::Base
   include HashColumnState
   include HasPinyinColumn
+  include Clientable
 
   set_pinyin_field :pinyin_name, :name
 

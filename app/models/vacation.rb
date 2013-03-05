@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Vacation < ActiveRecord::Base
+  include Clientable
 
   VACATION_TYPE_MAP = {"holiday" => "节假日", "workday" => "工作日"}
 

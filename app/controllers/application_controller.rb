@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   before_filter :require_user
   before_filter :authentication_required
 
-  helper_method :current_user_session, :current_user
+  helper_method :current_user_session, :current_user, :current_client
 
   skip_before_filter :verify_authenticity_token
 
@@ -42,8 +42,12 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def current_client
+    current_user && current_user.client
+  end
+
   def current_user_session
-    return @current_user_session if defined?(@current_user_session)    
+    return @current_user_session if defined?(@current_user_session)
     @current_user_session = UserSession.find
   end
 
@@ -116,13 +120,8 @@ class ApplicationController < ActionController::Base
     @user.try(:valid_password?,params[:password])
   end
 
-
-
   def render_404
     render :template => 'layouts/404', :layout => false, :status => :not_found
   end
 
-
 end
-
-
