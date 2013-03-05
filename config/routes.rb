@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 Cardsys::Application.routes.draw do 
 
-  devise_for :identities
 
   resources :clients
 
@@ -297,11 +296,11 @@ Cardsys::Application.routes.draw do
   #   end
 
   # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+  namespace :admin do
+    # Directs /admin/products/* to Admin::ProductsController
+    # (app/controllers/admin/products_controller.rb)
+    resources :clients
+  end
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
@@ -311,6 +310,17 @@ Cardsys::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
+
+  devise_for :identities do 
+    get 'signin' => 'devise/sessions#new', :as => :new_identity_session
+    post 'signin' => 'devise/sessions#create', :as => :identity_session
+    delete 'signout' => 'devise/sessions#destroy', :as => :destroy_identity_session
+
+    get 'signin' => 'devise/sessions#new', :as => :signin
+    post 'signin' => 'devise/sessions#create', :as => :identity_session
+    delete 'signout' => 'devise/sessions#destroy', :as => :signout
+  end
+
   match 'about' =>"welcome#about"
   match 'backup' =>"welcome#backup"
   match 'change_catena' =>"base#change_catena"

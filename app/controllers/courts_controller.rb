@@ -3,7 +3,8 @@ class CourtsController < ApplicationController
   before_filter :generate_period_prices, :only => [:show, :new, :edit, :create, :update]
 
   def index
-    @courts = Court.paginate(default_paginate_options)
+    # @courts = Court.paginate(default_paginate_options)
+    @courts = Court.paginate_by_client(current_client.id, default_paginate_options)
   end
 
   def show
@@ -21,6 +22,8 @@ class CourtsController < ApplicationController
   def create
     @court = Court.new(params[:court])
     format_court_period_price @court
+
+    @court.client_id = current_client.id if current_client
 
     if @court.save
       redirect_to(courts_path, :notice => '场地信息添加成功！') 
@@ -92,7 +95,8 @@ class CourtsController < ApplicationController
   protected
 
   def generate_period_prices
-    @period_prices = PeriodPrice.search_order
+    # @period_prices = PeriodPrice.search_order
+    @period_prices = PeriodPrice.order('start_time')
   end
 
   private

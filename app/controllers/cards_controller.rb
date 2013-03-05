@@ -3,19 +3,21 @@ class CardsController < ApplicationController
   before_filter :load_card, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @cards = Card.paginate(default_paginate_options)
+    # @cards = Card.paginate(default_paginate_options)
+    @cards = Card.paginate_by_client(current_client.id, default_paginate_options)
   end
 
   def new
     @card = Card.new
-    @period_prices = PeriodPrice.order("start_time")
+    @period_prices = PeriodPrice.clientable(current_client.id).order("start_time")
   end
 
   def create
     @card = Card.new(params[:card])
-    @period_prices = PeriodPrice.order("start_time")
+    @period_prices = PeriodPrice.clientable(current_client.id).order("start_time")
     #设置卡的时段价格
-    format_card_period_price @card 
+    format_card_period_price @card
+    @card.client_id = current_client.id if current_client
 
     if @card.save
       redirect_to(cards_path, :notice => '卡信息创建成功！') 
@@ -64,8 +66,9 @@ class CardsController < ApplicationController
   end
 
   private
+
   def format_card_period_price(card)
-    for period_price in PeriodPrice.order("start_time")
+    for period_price in PeriodPrice.clientable(current_client.id).order('start_time')
       #被选中可用的时段
       if params["time_available_#{period_price.id}"]
         price = params["time_discount_#{period_price.id}"]
@@ -79,8 +82,9 @@ class CardsController < ApplicationController
   end
 
   def load_card 
-    @card = Card.find(params[:id])    
-    @period_prices = PeriodPrice.order("start_time")
+    @card = Card.find(params[:id])
+    @period_prices = PeriodPrice.order('start_time')
+    @period_prices = @period_prices.clientable(current_client.id) if current_client
     @goods = Good.enabled
   end
 end

@@ -3,8 +3,8 @@ class PeriodPricesController < ApplicationController
   before_filter :load_period_price, :only => [ :show, :edit, :update, :destroy]
 
   def index
-    @date_type = SiteSetting.date_type Date.today
-    @period_prices = PeriodPrice.paginate(default_paginate_options)
+    @date_type     = SiteSetting.date_type Date.today
+    @period_prices = PeriodPrice.paginate_by_client(current_client.id, default_paginate_options)
   end
 
   def show
@@ -18,7 +18,8 @@ class PeriodPricesController < ApplicationController
   end
 
   def create
-    @period_price = PeriodPrice.new(params[:period_price])
+    @period_price           = PeriodPrice.new(params[:period_price])
+    @period_price.client_id = current_client.id if current_client
     if @period_price.save
       Court.all.each { |court|
         CourtPeriodPrice.create(:period_price_id => @period_price.id,

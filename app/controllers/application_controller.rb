@@ -103,10 +103,6 @@ class ApplicationController < ActionController::Base
     {:page => params[:page] || 1, :per_page => 20, :order => "created_at DESC"}
   end
 
-  def default_paginate_options_without_created_at
-    {:page => params[:page] || 1,:per_page => 20}
-  end
-
   def cart
     session[:cart] ||= Cart.new
   end
@@ -123,5 +119,10 @@ class ApplicationController < ActionController::Base
   def render_404
     render :template => 'layouts/404', :layout => false, :status => :not_found
   end
+
+  # for devise
+    def after_sign_in_path_for(resource)
+      admin_clients_path
+    end 
 
 end

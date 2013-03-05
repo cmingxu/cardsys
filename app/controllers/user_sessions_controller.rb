@@ -19,6 +19,7 @@ class UserSessionsController < ApplicationController
 
   def destroy
     current_user_session.destroy
+    @current_user = nil if @current_user
     flash[:notice] = "退出系统!"
     redirect_to new_user_session_url
   end
