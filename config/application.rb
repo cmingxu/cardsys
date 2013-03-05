@@ -61,6 +61,12 @@ module Cardsys
       Devise::ConfirmationsController.layout "devise"
       Devise::UnlocksController.layout "devise"
       Devise::PasswordsController.layout "devise"
+
+      Devise::SessionsController.skip_before_filter :require_user, :authentication_required
+      Devise::RegistrationsController.skip_before_filter :require_user, :authentication_required
+      Devise::ConfirmationsController.skip_before_filter :require_user, :authentication_required
+      Devise::UnlocksController.skip_before_filter :require_user, :authentication_required
+      Devise::PasswordsController.skip_before_filter :require_user, :authentication_required
     end
 
 
