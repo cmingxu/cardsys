@@ -2,7 +2,8 @@
 class CoachesController < ApplicationController
 
   def index
-    @coaches = Coach.paginate(default_paginate_options)
+    # @coaches = Coach.paginate(default_paginate_options)
+    @coaches = Coach.paginate_by_client(current_client.id, default_paginate_options)
     respond_to do |wants|
       wants.html {}
       wants.json { render :json => @coaches.to_json(:only => [:id, :name])}
@@ -30,7 +31,8 @@ class CoachesController < ApplicationController
   end
 
   def create
-    @coach = Coach.new(params[:coach])
+    @coach           = Coach.new(params[:coach])
+    @coach.client_id = current_client.id if current_client
     if @coach.save
       redirect_to(coaches_path, :notice => '教练信息添加成功！') 
     else

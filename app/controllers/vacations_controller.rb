@@ -3,7 +3,8 @@ class VacationsController < ApplicationController
 
 
   def index
-    @vacations = Vacation.paginate(default_paginate_options)
+    # @vacations = Vacation.paginate(default_paginate_options)
+    @vacations = Vacation.paginate_by_client(current_client.id, default_paginate_options)
   end
 
   def show
@@ -19,8 +20,8 @@ class VacationsController < ApplicationController
   end
 
   def create
-    @vacation = Vacation.new(params[:vacation])
-
+    @vacation           = Vacation.new(params[:vacation])
+    @vacation.client_id = current_client.id if current_client
     if @vacation.save
       redirect_to :action => "index", :notice => '节假日创建成功！'
     else

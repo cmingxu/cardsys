@@ -23,7 +23,8 @@ class MembersController < ApplicationController
     @members = Member.scoped
     @members = @members.where(:name => params[:name]) if params[:name].present?
     @members = @members.where("member_cards.card_serial_num = '#{params[:card_serial_num]}'").joins(:members_cards) if params[:card_serial_num].present?
-    @members = @members.paginate(default_paginate_options)
+    # @members = @members.paginate(default_paginate_options)
+    @members = @members.clientable(current_client).paginate(default_paginate_options)
   end
 
   def advanced_search 
@@ -147,7 +148,8 @@ class MembersController < ApplicationController
   end
 
   def create
-    @member = Member.new(params[:member])
+    @member           = Member.new(params[:member])
+    @member.client_id = current_client.id if current_client
     if @member.save
       if @member.granter?
         redirect_to new_members_card_path(:member_name => @member.name)
