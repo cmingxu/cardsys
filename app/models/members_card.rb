@@ -139,11 +139,11 @@ class MembersCard < ActiveRecord::Base
   end
 
   def has_less_count?
-    (card.is_counter_card? || card.is_zige_card?) && left_times < Setting.minimum_warn_count
+    (card.is_counter_card? || card.is_zige_card?) && left_times < SiteSetting.minimum_warn_count
   end
 
   def has_less_fee?
-    (!card.is_counter_card? || card.is_zige_card?) && left_fee < Setting.minimum_warn_amount
+    (!card.is_counter_card? || card.is_zige_card?) && left_fee < SiteSetting.minimum_warn_amount
   end
 
   def less_fee_desc

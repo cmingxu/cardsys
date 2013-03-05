@@ -23,7 +23,7 @@ class Court < ActiveRecord::Base
   end
 
   def can_not_book_now?(date, hour)
-    Setting.can_book_time_before_book.from_now < date + hour
+    SiteSetting.can_book_time_before_book.from_now < date + hour
   end
 
   def can_be_book?(date, hour)
