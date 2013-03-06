@@ -1,8 +1,6 @@
 # -*- encoding : utf-8 -*-
-class Admin::ClientsController < ApplicationController
-  before_filter :authenticate_identity!
+class Admin::ClientsController < AdminController
   before_filter :load_client
-  layout 'admin'
 
   def index
     @clients = Client.paginate(default_paginate_options)

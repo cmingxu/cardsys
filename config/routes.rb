@@ -2,6 +2,8 @@
 Cardsys::Application.routes.draw do 
 
 
+  get "welcome/dashboard"
+
   resources :clients
 
   get "powers/index"
@@ -326,5 +328,6 @@ Cardsys::Application.routes.draw do
   match 'change_catena' =>"base#change_catena"
   match ':controller(/:action(/:id(.:format)))'
   match 'account' => "user#show"
+  match 'admin_dashboard' => "admin/welcome#dashboard"
   root :to => "orders#index"
 end
