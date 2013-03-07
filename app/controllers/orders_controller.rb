@@ -4,11 +4,12 @@
 class OrdersController < ApplicationController
 
   def index
-    @courts       = Court.enabled
-    @date = params[:date].blank? ? Date.today : Date.parse(params[:date])
-    @daily_periods   = PeriodPrice.all_periods_in_time_span(@date)
-    @predate      = @date.yesterday.strftime("%Y-%m-%d")
-    @nextdate     = @date.tomorrow.strftime("%Y-%m-%d")    
+    @courts        = Court.clientable(current_client.id).enabled
+    @date          = params[:date].blank? ? Date.today : Date.parse(params[:date])
+    #@daily_periods = PeriodPrice.all_periods_in_time_span(@date)
+    @daily_periods = PeriodPrice.in_time_span.by_period_type(@date).clientable(current_client.id)
+    @predate       = @date.yesterday.strftime("%Y-%m-%d")
+    @nextdate      = @date.tomorrow.strftime("%Y-%m-%d")
   end
 
   def new
@@ -82,9 +83,11 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = Order.new(params[:order])
-    @order.state = "booked"
+    @order                      = Order.new(params[:order])
+    @order.state                = "booked"
     @order.possible_batch_order = true
+    @order.client_id            = current_client.id if current_client
+
     if @order.save
       log_action(@order.court_book_record, "book", @order.user || current_user, "#{@order.start_hour}:00-#{@order.end_hour}:00")
       flash[:notice] = "场地预订成功"

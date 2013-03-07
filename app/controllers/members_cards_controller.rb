@@ -1,23 +1,23 @@
 # -*- encoding : utf-8 -*-
 class MembersCardsController < ApplicationController
 
-
   autocomplete :members, :name
 
   def index
-    @members_cards = MembersCard.paginate default_paginate_options
+    # @members_cards = MembersCard.paginate default_paginate_options
+    @members_cards = MembersCard.paginate_by_client(current_client.id, default_paginate_options)
   end
 
 
   def autocomplete_name
-    @items = Member.autocomplete_for(params[:term])
+    @items = Member.clientable(current_client.id).autocomplete_for(params[:term])
     @names = []
     @items.each { |i| @names << i.name }
     render :inline => @names.to_json
   end
 
   def autocomplete_card_serial_num
-    @items = MembersCard.autocomplete_for(params[:term])
+    @items = MembersCard.clientable(current_client).autocomplete_for(params[:term])
     render :json => @items.collect{|item|
       {:member_name => item.member.name, 
         :value => item.card_serial_num,

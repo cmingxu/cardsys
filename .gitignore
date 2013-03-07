@@ -21,3 +21,4 @@ public/ckeditor_assets/**
 public/javascripts/.DS_Store
 .bundle/*
 .sass-cache/
+.rvmrc

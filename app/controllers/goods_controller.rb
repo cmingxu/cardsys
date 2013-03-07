@@ -4,22 +4,23 @@ class GoodsController < ApplicationController
   before_filter :search_goods, :only => [:index, :back, :front]
 
   def autocomplete_barcode
-    render :json => Good.where(["barcode = ? ","#{params[:term].strip}"]).all.collect(&:name).to_json
+    render :json => Good.clientable(current_client.id).where(["barcode = ? ","#{params[:term].strip}"]).all.collect(&:name).to_json
   end
 
 
   def autocomplete_name
-    render :json => Good.where(["pinyin_abbr like ? or name like ? or barcode like ?","%#{params[:term]}%","%#{params[:term]}%", "%#{params[:term]}%"]).all.collect(&:name).to_json
+    render :json => Good.clientable(current_client.id).where(["pinyin_abbr like ? or name like ? or barcode like ?","%#{params[:term]}%","%#{params[:term]}%", "%#{params[:term]}%"]).all.collect(&:name).to_json
   end
 
   def by_category
-   render :json => Good.all(:conditions => {:good_type =>  params[:category]}).to_json
+    # render :json => Good.all(:conditions => {:good_type =>  params[:category]}).to_json
+    render :json => Good.clientable(current_client.id).where(:good_type => params[:category]).to_json
   end
 
 
   def autocomplete_good
     goods = []
-    @goods = Good.where(["pinyin_abbr like ? or name like ? ","%#{@name}%","%#{@name}%"]) unless params[:name].blank?
+    @goods = Good.clientable(current_client.id).where(["pinyin_abbr like ? or name like ? ","%#{@name}%","%#{@name}%"]) unless params[:name].blank?
     @goods.each do |g| goods << {:label => g.name,:value => g.name,:id => g.id,:price => g.price} end
     render :inline => goods.to_json
   end
@@ -112,7 +113,7 @@ class GoodsController < ApplicationController
 
   def goods
     @order = Order.find(params[:order_id])
-    @goods = Good.enabled
+    @goods = Good.clientable(current_client.id).enabled
     name = params[:name] || params[:barcode] || ""
     @goods = @goods.where("name like '%#{name}%' or name_pinyin like '%#{name}%' or pinyin_abbr like '%#{name}%'" )
     @goods = @goods.where({:good_type => params[:good_type]}) if params[:good_type] and params[:good_type] != "0"
