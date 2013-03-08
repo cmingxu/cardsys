@@ -2,7 +2,8 @@
 Cardsys::Application.routes.draw do 
 
 
-  get "welcome/dashboard"
+
+  get "/dashboard", :to => "welcome#dashboard"
 
   resources :clients
 
@@ -10,6 +11,7 @@ Cardsys::Application.routes.draw do
 
   get "powers/edit"
 
+  resources :settings
   resources :rents
 
   resources :lockers do
