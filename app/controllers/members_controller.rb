@@ -6,14 +6,14 @@ class MembersController < ApplicationController
 
 
   def autocomplete_name
-    @items = Member.autocomplete_for(params[:term])
+    @items = Member.clientable(current_client.id).autocomplete_for(params[:term])
     @names = []
     @items.each { |i| @names << {:value => i.name,:label => "#{i.name} - #{i.mobile}", :id => i.id} }
     render :inline => @names.to_json
   end
 
   def autocomplete_card_serial_num
-    @items = MembersCard.autocomplete_for(params[:term])
+    @items = MembersCard.clientable(current_client.id).autocomplete_for(params[:term])
     @names = []
     @items.each { |i| @names << i.card_serial_num }
     render :inline => @names.to_json

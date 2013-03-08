@@ -4,9 +4,10 @@ class BookRecordsController < ApplicationController
 
 
   def index
-    @courts       = Court.enabled
+    @courts       = Court.clientable(current_client.id).enabled
     @date = params[:date].blank? ? Date.today : Date.parse(params[:date])
-    @daily_periods   = PeriodPrice.all_periods_in_time_span(@date)
+    #@daily_periods   = PeriodPrice.all_periods_in_time_span(@date)
+    @daily_periods   = PeriodPrice.in_time_span.by_period_type(@date).clientable(current_client.id)
     @predate      = @date.yesterday.strftime("%Y-%m-%d")
     @nextdate     = @date.tomorrow.strftime("%Y-%m-%d")    
   end
@@ -14,7 +15,8 @@ class BookRecordsController < ApplicationController
   def print
     @courts       = Court.order('id').all
     @date = params[:date].blank? ? Date.today : Date.parse(params[:date])
-    @daily_periods   = PeriodPrice.all_periods_in_time_span(@date)
+    #@daily_periods   = PeriodPrice.all_periods_in_time_span(@date)
+    @daily_periods   = PeriodPrice.in_time_span.by_period_type(@date).clientable(current_client.id)
     render :layout => false
   end
 
@@ -24,7 +26,7 @@ class BookRecordsController < ApplicationController
 
   def new    
     @court = Court.find(params[:court_id])
-    @coaches = Coach.enabled
+    @coaches = Coach.clientable(current_client.id).enabled
     @book_record = CourtBookRecord.new do |br|
       br.start_hour, br.end_hour, br.record_date = params[:start_hour], params[:end_hour], params[:date]
     end
@@ -245,7 +247,7 @@ class BookRecordsController < ApplicationController
       render(:text => {}.to_json) && return
     end
 
-    @members = Member.autocomplete_for(member_name)
+    @members = Member.clientable(current_client.id).autocomplete_for(member_name)
     hash_results = @members.collect {|member| {"id" => member.id, "label" => "#{member.name} #{member.mobile}", 
       "value" => "#{member.name}"} }
     render :json  => hash_results

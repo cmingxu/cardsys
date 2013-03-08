@@ -9,8 +9,7 @@
 %div{:style => "height:3px;"}
 .content
   %ul.nav.nav-tabs#tab
-    -# SiteSetting.court_type.each_with_index do |(id, court_type), index|
-    - SiteSetting.court_type.each_with_index do |court_type, index|
+    - current_client.court_type.each_with_index do |court_type, index|
       %li{:class => index == 0 ? "active" : ""}
         %a{:href => "##{court_type}_#{index}", "data-toggle" => "tab"}
           = court_type
@@ -18,9 +17,7 @@
   .clear
 
   .tab-content
-    -# SiteSetting.court_type.each_with_index do |(id, court_type), index|
-    - SiteSetting.court_type.each_with_index do |court_type, index|
-      -#%div{:id => id, :class => index == 0 ? "active tab-pane" : "tab-pane"}
+    - current_client.court_type.each_with_index do |court_type, index|
       %div{:id => "#{court_type}_#{index}", :class => index == 0 ? "active tab-pane" : "tab-pane"}
         %table.index_order_table.table
           - @courts.select{|c| c.court_type == court_type }.each_slice(6) do |slice|  

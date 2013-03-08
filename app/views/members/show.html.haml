@@ -29,7 +29,8 @@
     = @member.standby_phone.blank? ? '无' : @member.standby_phone
   
   - show_helper(:cert_type, "证件类型", :left) do
-    = Setting.cert_type_detail_name(@member.cert_type)
+    =# SiteSetting.cert_type_detail_name(@member.cert_type)
+    = @member.cert_type
   
   - show_helper(:cert_num, "证件号码", :right) do
     = @member.cert_num
