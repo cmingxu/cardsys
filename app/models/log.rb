@@ -1,5 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Log < ActiveRecord::Base
+  include Clientable
+
   belongs_to :item, :polymorphic => true
 
   LOG_TYPE = {
@@ -29,6 +31,7 @@ class Log < ActiveRecord::Base
     new(:remote_ip =>controller.request.remote_ip,
         :user_name => user.user_name,
         :user_id => user.id,
+        :client_id => user.client_id,
         :item => item,
         :log_type => log_type, 
         :desc => desc).save

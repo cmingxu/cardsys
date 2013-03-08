@@ -1,5 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Power < ActiveRecord::Base
+  include Clientable
+
   has_many   :user_powers,:dependent => :destroy
   has_many :users,:through => :user_powers
   has_many   :department_powers,:dependent => :destroy
@@ -37,7 +39,6 @@ class Power < ActiveRecord::Base
   end
 
   def can_destroy?
-    
     false
   end
 

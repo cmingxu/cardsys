@@ -11,6 +11,6 @@ class LogsController < ApplicationController
     end
 
     @logs = @logs.where({:user_name => params[:user] }) if params[:user].presence
-    @logs = @logs.paginate(default_paginate_options)
+    @logs = @logs.paginate_by_client(current_client.id, default_paginate_options)
   end
 end

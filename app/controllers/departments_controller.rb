@@ -2,7 +2,7 @@
 class DepartmentsController < ApplicationController
   before_filter :load_department, :only => [:show, :edit, :update, :destroy, :department_power_index, :department_power_update]
   def index
-    @departments = Department.all
+    @departments = Department.clientable(current_client.id)
   end
 
   def show
@@ -17,7 +17,7 @@ class DepartmentsController < ApplicationController
 
   def create
     @department = Department.new(params[:department])
-
+    @department.client_id = current_client.id if current_client
     if @department.save
       redirect_to(:action => "index", :notice => '部门信息创建成功！') 
     else
@@ -43,7 +43,7 @@ class DepartmentsController < ApplicationController
   end
 
   def department_power_index
-    @powers = Power.all
+    @powers = Power.clientable(current_client.id)
     @notice = params[:notice]
   end
 

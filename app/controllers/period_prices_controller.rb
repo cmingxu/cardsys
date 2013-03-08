@@ -26,7 +26,7 @@ class PeriodPricesController < ApplicationController
                                 :court_price =>  @period_price.price,
                                 :court_id => court.id)
       }
-      @period_prices = PeriodPrice.all
+      @period_prices = PeriodPrice.clientable(current_client.id)
       redirect_to :action => 'index', :notice => '时段价格创建成功！'
     else
       render :action => "new" 

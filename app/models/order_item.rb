@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'order_ext/member_order'
 class OrderItem < ActiveRecord::Base
+  include Clientable
 
   TYEP_STRING_MAP = {
     "CourtBookRecord"  => "场地预定",
@@ -24,6 +25,7 @@ class OrderItem < ActiveRecord::Base
   before_save :update_good_inventory, :only => :update
   before_destroy :update_good_inventory_before_destroy
   after_create :set_default_discount_and_discount_price
+  before_save  :set_client_id
 
   validates_numericality_of :quantity, :only_integer => true, :greater_than => -1
   validates_numericality_of :discount, :greater_than => 0, :less_or_equal_than => 10, :allow_blank => true
@@ -82,6 +84,9 @@ class OrderItem < ActiveRecord::Base
     self.update_column :price_after_discount, self.total_money_price
   end
 
+  def set_client_id
+    self.client_id = self.order.client_id
+  end
 
   def self.coache_items_in_time_span(order)
     return [] if order.coaches.blank? || order.book_record.blank?

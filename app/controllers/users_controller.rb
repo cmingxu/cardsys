@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   skip_before_filter :authentication_required
 
   def autocomplete_user_name
-    @items = User.where(["user_name_pinyin like ? or login like ?", "%#{params[:term].downcase}%", "%#{params[:term].downcase}%"]).limit(10)
+    @items = User.clientable(current_client.id).where(["user_name_pinyin like ? or login like ?", "%#{params[:term].downcase}%", "%#{params[:term].downcase}%"]).limit(10)
     @names = []
     @items.each { |i| @names << i.login}
     render :inline => @names.to_json#{lable:name, value:name}
@@ -12,22 +12,23 @@ class UsersController < ApplicationController
 
 
   def index
-    @users = User.paginate(default_paginate_options)
+    @users = User.paginate_by_client(current_client.id, default_paginate_options)
   end
 
   def new
-    @departments = Department.all
+    @departments = Department.clientable(current_client.id)
     @user = User.new
     @user.departments << @departments.try(:first) 
   end
   
   def create    
-    @user = User.new(params[:user])
+    @user             = User.new(params[:user])
     @user.departments = Department.find(params[:dep])
+    @user.client_id   = current_client.id if current_client
     if @user.save
       redirect_to users_path, :notice => "用户添加成功"
     else     
-      @departments = Department.all
+      @departments = Department.clientable(current_client.id)
       render :action => :new
     end
   end
@@ -37,7 +38,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @departments = Department.all
+    @departments = Department.clientable(current_client.id)
     @user = User.find(params[:id])
   end
 
@@ -47,7 +48,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(params[:user])
       redirect_to users_path, :notice => "用户修改成功"
     else
-      @departments = Department.all
+      @departments = Department.clientable(current_client.id)
       render :action => :edit
     end
   end

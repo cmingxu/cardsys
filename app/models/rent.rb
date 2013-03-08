@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 class Rent < ActiveRecord::Base
   include Authenticateable
+  include Clientable
+
   belongs_to :locker
   belongs_to :members_card,:foreign_key => :card_id
   belongs_to :member

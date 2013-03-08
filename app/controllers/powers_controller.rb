@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
 class PowersController < ApplicationController
   def index
-    @powers = Power.paginate default_paginate_options
+    #@powers = Power.paginate default_paginate_options
+    @powers = Power.paginate_by_client(current_client.id, default_paginate_options)
     ap @powers
   end
 

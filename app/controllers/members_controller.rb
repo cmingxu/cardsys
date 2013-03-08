@@ -125,7 +125,8 @@ class MembersController < ApplicationController
       @members = @members.delete_if { |member| member.member_consume_amounts !=( @consume_fees_start.presence.to_i || @consume_fees_end.presence.to_i)}
     end
 
-    @members = @members.paginate(default_paginate_options )
+    #@members = @members.paginate(default_paginate_options )
+    @members = @members.paginate_by_client(current_client.id, default_paginate_options)
   end
 
 

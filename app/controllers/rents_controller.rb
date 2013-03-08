@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class RentsController < ApplicationController
   def index
-    @rents = Rent.paginate default_paginate_options
+    @rents = Rent.paginate_by_client(current_client.id, default_paginate_options)
   end
 
   def new
@@ -14,6 +14,7 @@ class RentsController < ApplicationController
   def create
    @rent = Rent.new  params[:rent]
    @locker = @rent.locker
+   @rent.client_id = current_client.id if current_client
    if @rent.save
      flash[:notice] = "预订成功"
      render :layout => "small_main"

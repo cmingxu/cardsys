@@ -123,7 +123,7 @@ class GoodsController < ApplicationController
 
 
   def to_buy
-    @goods = Good.enabled.order('sale_count desc').limit(20)
+    @goods = Good.clientable(current_client.id).enabled.order('sale_count desc').limit(20)
     render :action => 'goods'
   end
 
