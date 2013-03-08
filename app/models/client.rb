@@ -10,7 +10,7 @@ class Client < ActiveRecord::Base
   before_save      :load_config_back
 
   def init_config
-    self.config = default_config.merge(self.config)
+    self.config = Client.default_config.merge(self.config)
     self.config.each do |key, value|
       self.send "#{key}=", value
     end
@@ -18,11 +18,11 @@ class Client < ActiveRecord::Base
 
   def load_config_back
     self.config = Hash[
-      SiteSetting.keys.collect{|key| [key, self.send("#{key}")] }
+      Client.default_config.keys.collect{|key| [key, self.send("#{key}")] }
     ]
   end
 
-  def default_config
+  def self.default_config
     SiteSetting.to_hash
   end
 
