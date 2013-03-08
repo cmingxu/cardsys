@@ -1,0 +1,135 @@
+= form_header(:title => "系统配置", :link => "")
+= form_for(current_client, :url => settings_path, :html => {:class => "form-horizontal well", :method => :post, :id => "setting_form"}) do |f|
+
+  - control_helper("site_name", "名称") do
+    = f.text_field "site_name"  
+    %span(class='help-block') 客户名称
+
+  - control_helper("minimum_warn_count", "续费报警次数") do
+    = f.text_field "minimum_warn_count"  
+    %span(class='help-block') 客户会员卡次数小于该次数时，向客户报警
+
+  - control_helper('can_cancel_time_before_activate', '最晚取消时间(天)') do
+    = f.text_field "can_cancel_time_before_activate"
+    %span(class='help-block') 时间早于此值时候可以取消预订
+
+  - control_helper('cancel_time_limit', '最小取消时间') do
+    = f.text_field "cancel_time_limit"
+    %span(class='help-block') 低于此时间不得取消(小时)，请填写数字
+
+
+  - control_helper('change_time', '最小变更时间') do
+    = f.text_field "change_time"
+    %span(class='help-block') 少于此时间不的变更(小时)
+
+  - control_helper('active_time', '最大开场时间') do
+    = f.text_field "active_time"
+    %span(class='help-block') 低于此时间不得开场(分钟)，请填数字
+
+  - control_helper('start_hour', '工作时间') do
+    = f.text_field "start_hour"
+    %span(class='help-block') 每天开始的工作时间
+
+  - control_helper('end_hour', '打烊时间') do
+    = f.text_field "end_hour"
+    %span(class='help-block') 每天下班时间
+
+  - control_helper('can_book_time_before_book', '可以取消的时间范围(天)') do
+    = f.text_field "can_book_time_before_book"
+    %span(class='help-block') 在此时间内可以预订
+
+  - control_helper('minimum_warn_amount', '充值报警') do
+    = f.text_field "minimum_warn_amount"
+    %span(class='help-block') 客户卡内金额小于该数值时，向客户报警
+
+  - control_helper('barcode_scanner_enabled', '是否支持条码扫描') do
+    = f.select "barcode_scanner_enabled", setting_boolean_options
+
+  - control_helper('financial_begin_day_of_every_month', '每月开始日期') do
+    = f.select "financial_begin_day_of_every_month", setting_month_begining_options
+    %span(class='help-block') 设置每个月以哪天开始
+
+  - control_helper('card_type', '消费卡类型') do
+    = raw setting_tagable(current_client, "card_type")
+
+
+  - control_helper('period_type', '时段类型') do
+    = raw setting_tagable(current_client, "period_type")
+
+  - control_helper('coach_type', '教练类型') do
+    = raw setting_tagable(current_client, "coach_type")
+
+  - control_helper('cert_type', '系统支持证件类型') do
+    = raw setting_tagable(current_client, "cert_type")
+
+  - control_helper('court_type', '系统支持球场类型') do
+    = raw setting_tagable(current_client, "court_type")
+
+
+  - control_helper('good_source', '商品来源') do
+    = raw setting_tagable(current_client, "good_source")
+              
+  - control_helper('summer_months', '夏令时月份') do
+    = raw setting_tagable(current_client, "summer_months")
+
+  - control_helper('winter_months', '冬令时月份') do
+    = raw setting_tagable(current_client, "winter_months")
+
+            
+  %div{:class => "form-actions"}
+    = f.submit "保存", :class => "btn btn-primary"
+
+
+
+:css 
+  #setting_form .control-group { margin-bottom: 12px; }
+
+:javascript
+  $(function(){
+    bindTaged("card_type");
+    bindTaged("period_type");
+    bindTaged("coach_type");
+    bindTaged("cert_type");
+    bindTaged("court_type");
+    bindTaged("good_source");
+    bindTaged("summer_months");
+    bindTaged("winter_months");
+  })
+
+  function bindTaged(taged_field){
+    var addBtn        = $("#" + taged_field + "_btn");
+    addBtn.click(function(){
+      var tagsContainer = $("#" + taged_field + "_container");
+      var tagsList      = tagsContainer.find('.tags-list');
+      var tagInput      = $("#" + taged_field);
+      var tagText       = tagInput.val();
+
+      // 判断是否已经存在了
+      canNotAdd = false;
+      tagsList.find('.tag-hidden-field').each(function(){
+        if($(this).val() == tagText){
+          canNotAdd = true;
+          tagInput.effect('highlight', {color: 'red'}, 1000).val('');
+          return;
+        }
+      })
+      if(tagText == '' || canNotAdd){
+        return false;
+      }
+
+      // 添加一个tag
+      var tagStr = '\
+        <li class="tag">\
+          <span>'+tagText+'</span>\
+          <input type="hidden" name="client['+ taged_field +'][]" value="'+ tagText +'" class="tag-hidden-field"/>\
+          <a class="close-tag">x</a>\
+        </li>'
+
+      var tag = $(tagStr);
+      tag.appendTo(tagsList);
+      tagInput.val('');
+      tag.effect('highlight', {}, 1000);
+    })
+  }
+
+
