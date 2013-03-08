@@ -1,51 +1,69 @@
 = form_header(:title => "系统配置", :link => "")
 = form_for(current_client, :url => settings_path, :html => {:class => "form-horizontal well", :method => :post, :id => "setting_form"}) do |f|
 
-  - control_helper("site_name", "名称") do
+  - control_helper("site_name", "名称", :left) do
     = f.text_field "site_name"  
-    %span(class='help-block') 客户名称
 
-  - control_helper("minimum_warn_count", "续费报警次数") do
-    = f.text_field "minimum_warn_count"  
+  - control_helper("minimum_warn_count", "续费报警次数", :right) do
+    .input-append
+      = f.text_field "minimum_warn_count"  
+      .add-on 次
     %span(class='help-block') 客户会员卡次数小于该次数时，向客户报警
 
-  - control_helper('can_cancel_time_before_activate', '最晚取消时间(天)') do
-    = f.text_field "can_cancel_time_before_activate"
+  - control_helper('can_cancel_time_before_activate', '最晚取消时间(天)', :left) do
+    .input-append
+      = f.text_field "can_cancel_time_before_activate"
+      .add-on 天
     %span(class='help-block') 时间早于此值时候可以取消预订
 
-  - control_helper('cancel_time_limit', '最小取消时间') do
-    = f.text_field "cancel_time_limit"
+  - control_helper('cancel_time_limit', '最小取消时间', :right) do
+    .input-append
+      = f.text_field "cancel_time_limit"
+      .add-on 小时
     %span(class='help-block') 低于此时间不得取消(小时)，请填写数字
 
 
-  - control_helper('change_time', '最小变更时间') do
-    = f.text_field "change_time"
+  - control_helper('change_time', '最小变更时间', :left) do
+    .input-append
+      = f.text_field "change_time"
+      .add-on 小时
     %span(class='help-block') 少于此时间不的变更(小时)
 
-  - control_helper('active_time', '最大开场时间') do
-    = f.text_field "active_time"
+  - control_helper('active_time', '最大开场时间', :right) do
+    .input-append
+      = f.text_field "active_time"
+      .add-on 分钟
     %span(class='help-block') 低于此时间不得开场(分钟)，请填数字
 
-  - control_helper('start_hour', '工作时间') do
-    = f.text_field "start_hour"
+  - control_helper('start_hour', '工作时间', :left) do
+    .input-append
+      = f.text_field "start_hour"
+      .add-on 点
     %span(class='help-block') 每天开始的工作时间
 
-  - control_helper('end_hour', '打烊时间') do
-    = f.text_field "end_hour"
+  - control_helper('end_hour', '打烊时间', :right) do
+    .input-append
+      = f.text_field "end_hour"
+      .add-on 点
     %span(class='help-block') 每天下班时间
 
-  - control_helper('can_book_time_before_book', '可以取消的时间范围(天)') do
-    = f.text_field "can_book_time_before_book"
+  - control_helper('can_book_time_before_book', '最短取消时间', :left) do
+    .input-append
+      = f.text_field "can_book_time_before_book"
+      .add-on 天
     %span(class='help-block') 在此时间内可以预订
 
-  - control_helper('minimum_warn_amount', '充值报警') do
-    = f.text_field "minimum_warn_amount"
+  - control_helper('minimum_warn_amount', '充值报警', :right) do
+    .input-append
+      = f.text_field "minimum_warn_amount", :class => 'money-input'
+      .add-on 元
     %span(class='help-block') 客户卡内金额小于该数值时，向客户报警
 
-  - control_helper('barcode_scanner_enabled', '是否支持条码扫描') do
+  - control_helper('barcode_scanner_enabled', '是否支持条码扫描', :left) do
     = f.select "barcode_scanner_enabled", setting_boolean_options
+    %span(class='help-block') 是否支持条形码扫描
 
-  - control_helper('financial_begin_day_of_every_month', '每月开始日期') do
+  - control_helper('financial_begin_day_of_every_month', '每月开始日期', :right) do
     = f.select "financial_begin_day_of_every_month", setting_month_begining_options
     %span(class='help-block') 设置每个月以哪天开始
 
@@ -94,6 +112,13 @@
     bindTaged("good_source");
     bindTaged("summer_months");
     bindTaged("winter_months");
+
+    $(".close-tag").live('click', function(){
+      var tag = $(this).closest('li');
+      tag.fadeOut(500, function(){
+        tag.remove();
+      });
+    });
   })
 
   function bindTaged(taged_field){

@@ -95,4 +95,7 @@ table.report_table tr.report_title td{
   padding: 1px;
 }
 
+.money-input {
+  text-align: right;
+}
 
