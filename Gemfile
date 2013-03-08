@@ -1,5 +1,5 @@
-source 'http://ruby.taobao.org'
-
+#source 'http://ruby.taobao.org'
+source 'http://rubygems.org'
 
 gem 'rails', '3.2.1'
 
@@ -18,6 +18,7 @@ gem 'devise'
 
 gem 'bootstrap-will_paginate'
 
+gem 'newrelic_rpm'
 
 
 group :test, :development do
