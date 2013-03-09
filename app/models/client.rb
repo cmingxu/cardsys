@@ -1,4 +1,6 @@
 class Client < ActiveRecord::Base
+  has_many :users, :dependent => :destroy
+
   serialize :config, Hash
 
   SiteSetting.keys.each do |item, value|
@@ -10,7 +12,7 @@ class Client < ActiveRecord::Base
   before_save      :load_config_back
 
   def init_config
-    self.config = Client.default_config.merge(self.config)
+    self.config = ::Client.default_config.merge(self.config)
     self.config.each do |key, value|
       self.send "#{key}=", value
     end
