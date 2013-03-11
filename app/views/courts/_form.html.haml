@@ -5,8 +5,7 @@
     = f.text_field :name
 
   - control_helper("court_type", "场地类型") do
-    =# f.select :court_type, SiteSetting.court_type_options(@court.court_type)
-    = f.select :court_type, options_for_select(SiteSetting.court_type.collect{|e| [e, e] })
+    = f.select :court_type, options_for_select(current_client.court_type.collect{|e| [e, e] })
 
 
   - control_helper("start_time", "开始时间") do

@@ -1,5 +1,5 @@
 = form_tag form_url, :class => "form-horizontal well", :method => :get, :id => "search_form"  do
-  - unless SiteSetting.barcode_scanner_enabled
+  - unless current_client.barcode_scanner_enabled
     - control_helper(:good_type, "商品类别", :left) do
       = select_tag "good_type",raw(generate_good_type_options(@good_type)),:id => "good_type",:class=> "select"
 

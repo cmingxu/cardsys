@@ -45,8 +45,7 @@
 
 
   - control_helper("cert_type", "证件类型") do
-    =# f.select :cert_type, SiteSetting.cert_type_options(@member.cert_type)
-    = f.select :cert_type, options_for_select(SiteSetting.cert_type.collect{|e| [e, e] })
+    = f.select :cert_type, options_for_select(current_client.cert_type.collect{|e| [e, e] })
 
 
   - control_helper("cert_num", "证件号码") do

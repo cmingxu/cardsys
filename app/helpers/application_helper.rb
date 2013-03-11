@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def current_active_courts_tab
-     session[:current_active_courts_tab] ||= SiteSetting.court_type.first[0] 
+     session[:current_active_courts_tab] ||= current_client.court_type.first[0] 
      session[:current_active_courts_tab]
   end
 

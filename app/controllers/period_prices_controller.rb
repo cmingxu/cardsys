@@ -3,7 +3,7 @@ class PeriodPricesController < ApplicationController
   before_filter :load_period_price, :only => [ :show, :edit, :update, :destroy]
 
   def index
-    @date_type     = SiteSetting.date_type Date.today
+    @date_type     = current_client.date_type Date.today
     @period_prices = PeriodPrice.paginate_by_client(current_client.id, default_paginate_options)
   end
 

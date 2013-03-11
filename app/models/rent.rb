@@ -46,7 +46,7 @@ class Rent < ActiveRecord::Base
   end
 
   def almost_due?(date = Date.today)
-    SiteSetting.locker_due_time.days.from_now > self.end_date && date < self.end_date
+    self.client.locker_due_time.days.from_now > self.end_date && date < self.end_date
   end
 
   def state_desc

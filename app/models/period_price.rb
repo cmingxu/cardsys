@@ -23,21 +23,21 @@ class PeriodPrice < ActiveRecord::Base
   end
 
   def is_fit_for?(date)
-    period_type == SiteSetting.date_type(date)
+    period_type == self.client.date_type(date)
   end
 
   def is_in_time_span(date = Date.today, start_hour = nil, end_hour = nil)
-    start_hour ||= SiteSetting.start_hour
-    end_hour   ||= SiteSetting.end_hour
-    date_type = SiteSetting.date_type(date||Date.today)
+    start_hour ||= self.client.start_hour
+    end_hour   ||= self.client.end_hour
+    date_type = self.client.date_type(date||Date.today)
     date_type && period_type == date_type.id && start_time < end_hour && end_time > start_hour
   end
 
   #取得某一天中给定时间段的时段价格
   def self.all_periods_in_time_span(date = Date.today, start_time=nil, end_time=nil)
-    start_time ||= SiteSetting.start_hour
-    end_time   ||= SiteSetting.end_hour
-    date_type = SiteSetting.date_type(date || Date.today)
+    start_time ||= self.client.start_hour
+    end_time   ||= self.client.end_hour
+    date_type = self.client.date_type(date || Date.today)
 
     pp = PeriodPrice.where(:period_type => date_type).order("start_time asc")
     pp.select{ |element| element.start_time < end_time && element.end_time > start_time }
@@ -45,7 +45,7 @@ class PeriodPrice < ActiveRecord::Base
 
 
   def self.period_by_date_and_start_hour(date, start_hour)
-    date_type = SiteSetting.date_type(date)
+    date_type = self.client.date_type(date)
     pp = PeriodPrice.where(:period_type => date_type)
     pp.select { |element| element.start_time <= start_hour && element.end_time >= start_hour + 1}
   end
