@@ -21,7 +21,7 @@ module Clientable
     end
 
     def ensure_client_exist
-      errors.add(:client_id, "你不属于任何球场，请联系管理员。") if self.must_belongs_to_a_client?
+      errors.add(:client_id, "你不属于任何球场，请联系管理员。") if self.must_belongs_to_a_client? && self.client_id.blank?
     end
   end
 end
