@@ -6,8 +6,6 @@ class MembersCard < ActiveRecord::Base
   include HashColumnState
   include Clientable
 
-  has_many :logs, :as => :item
-
   belongs_to  :card
   belongs_to  :member
   has_many    :orders

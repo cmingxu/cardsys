@@ -12,11 +12,11 @@ class CreateMembers < ActiveRecord::Migration
       t.string :email
       t.string :address
       t.string :job
-      t.integer :cert_type
+      t.string :cert_type
       t.string :cert_num
       t.string :memo
       t.string :mentor
-      t.integer :fax
+      t.string :fax
       t.text :description
       t.string :state
       t.boolean :granter 

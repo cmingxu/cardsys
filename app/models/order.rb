@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 require 'digest/sha1'
 class Order < ActiveRecord::Base
+  include Logable
+
   OPMAP = { "activate"         => "开场",
             "want_sell"        => "申请代卖",
             "all_cancel"       => "连续取消",
@@ -20,7 +22,6 @@ class Order < ActiveRecord::Base
   has_one     :non_member
   belongs_to  :advanced_order
 
-  has_many :logs, :as => :item
 
   validates  :members_card_id, :presence => { :message => "请选择会员卡" }, :if => proc { |order| order.is_member? }
   validates  :member_id, :presence => { :message => "请选择会员" }, :if => proc { |order| order.is_member? }

@@ -5,7 +5,7 @@ class CreateGoods < ActiveRecord::Migration
       t.string :name
       t.string :name_pinyin
       t.string :pinyin_abbr
-      t.integer :good_type #common_resource_detail_id
+      t.string :good_type 
       t.decimal :purchasing_price, :precision => 10, :scale => 2
       t.decimal :price, :default => 0, :precision => 10, :scale => 2
       t.string :state
