@@ -3,8 +3,8 @@ class Court < ActiveRecord::Base
   include HashColumnState
   include Clientable
 
-  has_many :court_period_prices
-  has_many :period_prices, :through => :court_period_prices
+  has_many :periodable_period_prices, :as => :periodable
+  has_many :period_prices, :through => :periodable_period_prices
   has_many :book_records, :as => :resource
 
   validates :name, :presence => {:message => "场地名称不能为空！"}

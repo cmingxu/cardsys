@@ -13,8 +13,8 @@ class Card < ActiveRecord::Base
   }
   
   has_many :members_cards
-  has_many :card_period_prices
-  has_many :period_prices, :through => :card_period_prices
+  has_many :periodable_period_prices, :as => :periodable
+  has_many :period_prices, :through => :periodable_period_prices
 
   
   validates :name, :presence => {:message => "卡名称不能为空！"}

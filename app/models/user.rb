@@ -39,15 +39,11 @@ class User < ActiveRecord::Base
   end
 
   def powers
-    self.departments.collect(&:powers).flatten.uniq
-  end
-
-  def admin?
-    self.login == 'admin'
+    self.departments.collect(&:powers).flatten.uniq 
   end
 
   def menus
-    (self.departments.collect(&:powers).flatten).uniq.collect(&:subject)
+    self.powers.collect(&:subject)
   end
 
   def can_book_when_time_due?
@@ -57,7 +53,6 @@ class User < ActiveRecord::Base
   def can?(action)
     self.menus.include?(action)
   end
-
 
   def departments_names
     self.departments.collect(&:name).join(", ")
