@@ -49,16 +49,15 @@ class Court < ActiveRecord::Base
 
   def daily_period_prices(date = Date.today)
     court_available_period_prices = []
-    period_prices = PeriodPrice.all_periods_in_time_span(date, start_hour, end_hour)
+    period_prices = self.client.all_periods_in_time_span(date, start_hour, end_hour)
     period_prices.each do |period_price |
       court_available_period_prices << period_price  if is_useable_in_time_span?(date)
     end
     court_available_period_prices.sort{|fst,scd| fst.start_time <=> scd.start_time }
   end
 
-
   def calculate_amount_in_time_span(date, start_hour, end_hour)
-    PeriodPrice.calculate_amount_in_time_spans(date, start_hour, end_hour) do |period_price|
+    self.client.calculate_amount_in_time_spans(date, start_hour, end_hour) do |period_price|
       court_period_price = court_period_prices.where("period_price_id=#{period_price.id}").first
       [!court_period_price.nil? ,court_period_price.try(:court_price) || 0]
     end

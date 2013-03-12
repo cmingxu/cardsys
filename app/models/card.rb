@@ -52,19 +52,19 @@ class Card < ActiveRecord::Base
   end
 
   def calculate_amount_in_time_span(date,start_hour,end_hour)
-    PeriodPrice.calculate_amount_in_time_spans(date, start_hour, end_hour) do |period_price|
+    self.client.calculate_amount_in_time_spans(date, start_hour, end_hour) do |period_price|
       card_period_price = self.card_period_prices.first(:conditions => "period_price_id=#{period_price.id}")
       [!card_period_price.nil? ,card_period_price.card_price]
     end
   end
 
   def avaliable_in_time_span?(date, start_hour, end_hour)
-    (period_prices & PeriodPrice.all_periods_in_time_span(date, start_hour, end_hour)).present?
+    (period_prices & self.client.all_periods_in_time_span(date, start_hour, end_hour)).present?
   end
 
   def total_money_in_time_span(court_book_record, date, start_hour, end_hour)
     start_hour, end_hour = start_hour.to_i, end_hour.to_i
-    period_prices = court_book_record.period_prices & PeriodPrice.all_periods_in_time_span(date, start_hour, end_hour)
+    period_prices = court_book_record.period_prices & self.client.all_periods_in_time_span(date, start_hour, end_hour)
     period_prices.sort!{|fst,scd| scd.start_time <=> fst.start_time }
     total_price = 0
     period_prices.each do |period_price|

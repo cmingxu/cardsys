@@ -34,10 +34,9 @@ module DateTypeDeteminer
   end
 
   def is_summer?(date)
-    SiteSetting.summer_months.include?(date.month) 
+    self.summer_months.include?(date.month) 
   end
 end
-
 
 
 class Client < ActiveRecord::Base
@@ -72,5 +71,38 @@ class Client < ActiveRecord::Base
   def self.default_config
     SiteSetting.to_hash
   end
+  
+  def period_by_date_and_start_hour(date, start_hour)
+    date_type = self.date_type(date)
+    # pp = PeriodPrice.where(:period_type => date_type)
+    PeriodPrice.where("period_type=? AND start_time <= ? AND end_time >= ?", date_type, start_hour, start_hour + 1)
+    # pp.select { |element| element.start_time <= start_hour && element.end_time >= start_hour + 1}
+  end
+
+  #取得某一天中给定时间段的时段价格
+  def all_periods_in_time_span(date = Date.today, start_time=nil, end_time=nil)
+    start_time ||= self.client.start_hour
+    end_time   ||= self.client.end_hour
+    date_type = self.date_type(date)
+
+    pp = PeriodPrice.where(:period_type => date_type).order("start_time asc")
+    pp.select{ |element| element.start_time < end_time && element.end_time > start_time }
+  end
+  
+  def calculate_amount_in_time_spans(date, start_hour, end_hour)
+    start_hour,end_hour = start_hour.to_i,end_hour.to_i
+    period_prices = all_periods_in_time_span(date,start_hour,end_hour)
+    period_prices.sort!{|fst,scd| scd.start_time <=> fst.start_time }
+    amount,leave_end_hour = 0,end_hour
+    period_prices.each do |period_price|
+      condition, price = yield period_price
+      realy_end_hour = [start_hour,period_price.start_time].max
+      next unless condition
+      amount += (leave_end_hour - realy_end_hour)*price
+      leave_end_hour = realy_end_hour
+    end
+    amount
+  end  
+  
 
 end

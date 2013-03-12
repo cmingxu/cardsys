@@ -9,13 +9,19 @@ class PeriodPrice < ActiveRecord::Base
 
   validate :validate_start_time_end_time
 
-  scope :in_time_span, lambda { |start_time = SiteSetting.start_hour, end_time = SiteSetting.end_hour| 
+  scope :in_time_span, lambda { |client, start_time = nil, end_time = nil|
+    start_time ||= client.start_hour
+    end_time   ||= client.end_hour
     where("start_time < ? AND end_time > ?", end_time, start_time).order('start_time asc')
   }
 
-  scope :by_period_type, lambda { |date = Date.today| 
-    date_type = SiteSetting.date_type(date || Date.today)
-    where(:period_type => date_type)
+  #scope :by_period_type, lambda { |date = Date.today| 
+  #  date_type = SiteSetting.date_type(date || Date.today)
+  #  where(:period_type => date_type)
+  #}
+
+  scope :by_period_type, lambda { |period_type|
+    where(:period_type => period_type)
   }
 
   def validate_start_time_end_time
@@ -41,13 +47,6 @@ class PeriodPrice < ActiveRecord::Base
 
     pp = PeriodPrice.where(:period_type => date_type).order("start_time asc")
     pp.select{ |element| element.start_time < end_time && element.end_time > start_time }
-  end
-
-
-  def self.period_by_date_and_start_hour(date, start_hour)
-    date_type = self.client.date_type(date)
-    pp = PeriodPrice.where(:period_type => date_type)
-    pp.select { |element| element.start_time <= start_hour && element.end_time >= start_hour + 1}
   end
 
   def self.calculate_amount_in_time_spans(date, start_hour, end_hour)
