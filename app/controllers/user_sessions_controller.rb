@@ -12,14 +12,14 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
       redirect_back_or_default root_or_admin_root_path 
+      # redirect_to '/'
     else
       render :action => "new", :layout => false
     end
   end
 
   def destroy
-    current_user_session.destroy
-    @current_user = nil if @current_user
+    current_user_session.destroy if current_user_session
     flash[:notice] = "退出系统!"
     redirect_to new_user_session_url
   end

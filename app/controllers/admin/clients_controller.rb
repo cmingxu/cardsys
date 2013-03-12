@@ -3,7 +3,7 @@ class Admin::ClientsController < AdminController
   before_filter :load_client
 
   def index
-    @clients = Client.paginate(default_paginate_options)
+    @clients = Client.paginate(:page => params[:page], :per_page => 20, :order => 'created_at DESC')
   end
 
   def show

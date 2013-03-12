@@ -260,7 +260,12 @@ Cardsys::Application.routes.draw do
     end
   end
 
+  # for customer login
   resource :user_session
+  get "/login",     :to => "user_sessions#new",     :as => :login
+  delete "/logout", :to => "user_sessions#destroy", :as => :logout
+  
+  
   resources :powers
 
   resources :departments do
@@ -314,7 +319,8 @@ Cardsys::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-
+  
+  # for us 
   devise_for :identities do 
     get 'signin' => 'devise/sessions#new', :as => :new_identity_session
     post 'signin' => 'devise/sessions#create', :as => :identity_session
