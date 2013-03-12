@@ -3,8 +3,8 @@
 require 'custom_date_for_report'
 
 class Balance < ActiveRecord::Base
-  has_many :logs, :as => :item
   include Authenticateable
+  include Logable
 
   BALANCE_WAYS = {
     "card" => "记账",

@@ -40,5 +40,6 @@ require 'has_column_state'
 require 'has_pinyin_column'
 require 'authenticateable'
 require 'can_destroy'
+require 'logable'
 
 require 'will_paginate/array'
