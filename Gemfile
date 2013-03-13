@@ -26,6 +26,8 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'spork', '~> 1.0rc'
   gem 'shoulda-matchers'
+  gem 'erb2haml'
+  gem 'magic_encoding'
 end
 
 gem 'twitter-bootstrap-rails', '2.0.3'
@@ -45,5 +47,3 @@ end
 gem 'debugger'
 
 gem 'haml-rails'
-gem 'erb2haml'
-gem 'magic_encoding'
