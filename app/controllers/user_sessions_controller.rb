@@ -11,8 +11,8 @@ class UserSessionsController < ApplicationController
   def create
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
-      redirect_back_or_default root_or_admin_root_path 
-      # redirect_to '/'
+      # redirect_back_or_default root_or_admin_root_path 
+      redirect_to '/'
     else
       render :action => "new", :layout => false
     end

@@ -311,6 +311,17 @@ Cardsys::Application.routes.draw do
     resources :clients
   end
 
+  devise_for :identities, :skip => [:sessions]
+  as :identity do
+    get 'signin' => 'devise/sessions#new', :as => :new_identity_session
+    post 'signin' => 'devise/sessions#create', :as => :identity_session
+    delete 'signout' => 'devise/sessions#destroy', :as => :destroy_identity_session
+
+    get 'signin' => 'devise/sessions#new', :as => :signin
+    post 'signin' => 'devise/sessions#create', :as => :identity_session
+    delete 'signout' => 'devise/sessions#destroy', :as => :signout
+  end
+
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => "welcome#index"
@@ -321,15 +332,7 @@ Cardsys::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   
   # for us 
-  devise_for :identities do 
-    get 'signin' => 'devise/sessions#new', :as => :new_identity_session
-    post 'signin' => 'devise/sessions#create', :as => :identity_session
-    delete 'signout' => 'devise/sessions#destroy', :as => :destroy_identity_session
-
-    get 'signin' => 'devise/sessions#new', :as => :signin
-    post 'signin' => 'devise/sessions#create', :as => :identity_session
-    delete 'signout' => 'devise/sessions#destroy', :as => :signout
-  end
+  
 
   match 'about' =>"welcome#about"
   match 'backup' =>"welcome#backup"

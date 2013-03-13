@@ -1,6 +1,10 @@
 # -*- encoding : utf-8 -*-
 module ApplicationHelper
 
+  def site_name
+    "球场管理"
+  end
+
   def left_nav_active?(url)
     # current_url = url_for(:controller => controller_name, :action_name => action_name)
     url_hash = Rails.application.routes.recognize_path(url)

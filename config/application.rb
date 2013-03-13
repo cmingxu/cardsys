@@ -61,12 +61,15 @@ module Cardsys
       Devise::ConfirmationsController.layout "devise"
       Devise::UnlocksController.layout "devise"
       Devise::PasswordsController.layout "devise"
-
-      Devise::SessionsController.skip_before_filter :require_user, :authentication_required
-      Devise::RegistrationsController.skip_before_filter :require_user, :authentication_required
-      Devise::ConfirmationsController.skip_before_filter :require_user, :authentication_required
-      Devise::UnlocksController.skip_before_filter :require_user, :authentication_required
-      Devise::PasswordsController.skip_before_filter :require_user, :authentication_required
+      
+      authlogic_filters = [:require_user, :authentication_required, :require_no_user, :require_no_authentication]
+      authlogic_filters.each do |filter|
+        Devise::SessionsController.skip_before_filter filter
+        Devise::RegistrationsController.skip_before_filter filter
+        Devise::ConfirmationsController.skip_before_filter filter
+        Devise::UnlocksController.skip_before_filter filter
+        Devise::PasswordsController.skip_before_filter filter
+      end
     end
 
 

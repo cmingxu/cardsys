@@ -18,22 +18,20 @@
     / Le fav and touch icons
 
   %body
-    .navbar.navbar-fixed-top
-      .navbar-inner
-        .container
-          =link_to SiteSetting.site_name + "管理", root_path, :class => "brand"
     
     .container
-      #user_agent_warnning
-      - if flash[:notice]
-        .alert.alert-info
-          %a{:class => "close", "data-dismiss" => "alert"} x
-          %strong= flash[:notice]
-      .row.well{:style => "background-color: whiteSmoke"}
-        = yield
-  %hr
-  %footer
-    %p &copy; Broadwell Club Mangement System  博德维球馆管理系统 #{link_to "www.broadwell.cn","http://www.broadwell.cn"}
+      .content
+        #user_agent_warnning
+        - if flash[:notice]
+          .alert.alert-info
+            %a{:class => "close", "data-dismiss" => "alert"} x
+            %strong= flash[:notice]
+        .row{:style => "margin-left:0;"}
+          .offset4.span4.well{:style => "background-color: whiteSmoke;"}
+            = yield
+            %hr
+            %footer
+              %p &copy; 博德维球馆管理系统 #{link_to "www.broadwell.cn","http://www.cloudtenis.cn"}
     :javascript
       $(document).ready(function(){
       if(!navigator.userAgent.match(/Chrome/)){
