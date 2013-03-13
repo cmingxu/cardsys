@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Admin::ClientsController < AdminController
+class Admin::ClientsController < Admin::BaseController
   before_filter :load_client
 
   def index
