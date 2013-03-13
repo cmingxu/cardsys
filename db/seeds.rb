@@ -16,8 +16,8 @@ Identity.delete_all
 user = Identity.create(:email => "admin@example.com",:password => "admin01",:password_confirmation => "admin01")
 bodewei = Client.create :name => "博徳维", :locked => false
 aoyuan  = Client.create :name => "奥园",   :locked => false
-bodewei.users.create(:login => "bodewei_admin", :password => "admin01", :password_confirmation => "admin01", :user_name => "管理员", :role => User::CLINET_ADMIN)
-aoyuan.users.create(:login => "aoyuan_admin", :password => "admin01", :password_confirmation => "admin01", :user_name => "管理员", :role => User::CLINET_ADMIN)
+bodewei_admin = bodewei.users.create(:login => "bodewei_admin", :password => "admin01", :password_confirmation => "admin01", :user_name => "管理员", :role => User::CLINET_ADMIN)
+aoyuan_admin  = aoyuan.users.create(:login => "aoyuan_admin", :password => "admin01", :password_confirmation => "admin01", :user_name => "管理员", :role => User::CLINET_ADMIN)
 dep_admin_bodewei =  Department.create(:client => bodewei, :name => "_管理员")
 dep_admin_aoyuan  =  Department.create(:client => aoyuan,  :name => "_管理员")
 
@@ -31,5 +31,13 @@ config.each_key do |menu|
   this_menu.fetch('submenus').try(:each_key) do |submenu|
     Power.create(:subject => this_menu.fetch('submenus')[submenu], :path => send(submenu))
   end
-
 end
+
+dep_admin_bodewei.powers = dep_admin_aoyuan.powers = Power.all.select {|p| !p.subject.start_with?("_")}
+dep_admin_bodewei.save
+dep_admin_aoyuan.save
+
+bodewei_admin.departments << dep_admin_bodewei
+aoyuan_admin.departments << dep_admin_aoyuan 
+bodewei_admin.save
+aoyuan_admin.save

@@ -12,44 +12,72 @@ common:
 member:
   name: "会员管理"
   default_path: "/members"
-  submenus:
+  submenus: 
+    members_path: "会员列表"
+    new_member_path: "添加会员"
+    advanced_search_members_path: "高级查询"
 
 member_card:
   name: "会员卡管理"
   default_path: "/members_cards/new"
   submenus:
+    new_members_card_path: "会员卡绑定"
+    recharge_members_cards_path:  "会员卡充值"
+    granters_members_cards_path: "授权人管理"
+    status_members_cards_path: "停卡激活管理"
 
 book_record:
   name: "场地预定"
   default_path: "/orders"
   submenus:
+    orders_path: "新场地预定"
+    court_status_search_courts_path: "场地预定情况查询"
+    coach_status_search_courts_path: "教练日程查询"
 
 goods:
   name: "库存管理"
   default_path: "/goods"
   submenus:
+    goods_path: "商品管理"
+    back_goods_path:  "后台库存管理"
+    front_goods_path: "前台出库管理"
+    categories_path: "分类管理"
 
 report:
   name: "分析报表"
   default_path: "/reports/income"
   submenus:
+    reports_income_path: "日收入报表"
+    reports_income_by_month_path: "月收入报表"
+    reports_good_search_path: "销售统计表"
 
 balance:
   name: "消费结算"
   default_path: "/balances/new_good_buy"
   submenus:
+    new_good_buy_balances_path: "购买商品"
+    unbalanced_balances_path: "场地待结算列表"
+    balanced_balances_path: "场地已结算列表"
 
 locker:
   name: "储物柜"
   default_path: "/lockers"
   submenus:
+    lockers_path: "储物柜列表"
+    rents_path: "租用记录"
 
 authorize:
   name: "权限管理"
   default_path: "/users"
   submenus:
+    users_path: "用户管理"
+    departments_path: "部门管理"
 
 system:
   name: "系统管理"
   default_path: "/logs"
   submenus:
+    settings_path: '系统配置' 
+    logs_path: "操作日志"
+    backup_path: "数据备份"
+    about_path:  "关于软件"

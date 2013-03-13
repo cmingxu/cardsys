@@ -3,7 +3,7 @@ class Department < ActiveRecord::Base
   include Clientable
 
   validates :name, :presence => {:message => "名称不能为空！"}
-  validates :name, :uniqueness => { :message => '名称已经存在了！'}
+  validates :name, :uniqueness => { :message => '名称已经存在了！', :scope => :client_id}
 
   has_many :department_users
   has_many :users, :through => :department_users
