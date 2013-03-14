@@ -4,6 +4,9 @@ class UserSessionsController < ApplicationController
   skip_before_filter :authentication_required
 
   def new
+    if current_user and current_client
+      redirect_to root_url(:subdomain => current_client.domain) and return
+    end
     @user_session = UserSession.new
     render :layout => false
   end
@@ -12,7 +15,8 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
       # redirect_back_or_default root_or_admin_root_path 
-      redirect_to '/'
+      redirect_to root_url(:subdomain => current_client.domain)
+      #redirect_to '/'
     else
       render :action => "new", :layout => false
     end
