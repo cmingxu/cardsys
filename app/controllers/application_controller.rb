@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
 
   helper :all # include all helpers, all the time
 
+  include UrlHelper
+
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
   protect_from_forgery :secret => '8ec6935fe52d16c7a633b948c07815f1'
@@ -16,14 +18,29 @@ class ApplicationController < ActionController::Base
   before_filter :set_date
   before_filter :require_user
   before_filter :authentication_required
+  
+  before_filter :ensure_client_domain
 
   helper_method :current_user_session, :current_user, :current_client
 
   skip_before_filter :verify_authenticity_token
 
+  # include UrlHelper
+
+
   #rescue_from Exception, :with => :render_404
 
   protected
+  
+  # redirect to subdomain when client login
+  def ensure_client_domain
+    subdomain = request.subdomains(0).first
+    if Rails.env == 'production'
+      if current_client and (subdomain.blank? or subdomain != current_client.domain)
+        redirect_to root_url(:subdomain => current_client.domain)
+      end
+    end
+  end
 
   def set_date
     @date ||= DateTime.now
