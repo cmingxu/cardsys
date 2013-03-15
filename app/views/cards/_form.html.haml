@@ -69,13 +69,12 @@
         %th 说明
     %tbody
       - @period_prices.each_with_index do |period_price,index|
-        - available_period = @card.generate_card_period_price(period_price)
         %tr
           %td= index.succ
           %td= period_price.name + "#{period_price.start_time}:00-#{period_price.end_time}:00"
           %td= period_price.price
-          %td= check_box_tag("time_available_#{period_price.id}", "1", available_period.present?)
-          %td= text_field_tag("time_discount_#{period_price.id}", @card.generate_card_period_price(period_price).nil? ? period_price.price : card.generate_card_period_price(period_price).card_price)
+          %td= check_box_tag("time_available_#{period_price.id}", "1", @card.period_prices_include?(period_price))
+          %td= text_field_tag("time_discount_#{period_price.id}", @card.period_prices_include?(period_price) ? period_price.price : card.generate_card_period_price(period_price).card_price)
           %td= period_price.description
   
   .form-actions

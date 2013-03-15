@@ -16,17 +16,16 @@ class Card < ActiveRecord::Base
   has_many :periodable_period_prices, :as => :periodable
   has_many :period_prices, :through => :periodable_period_prices
 
-  
-  validates :name, :presence => {:message => "卡名称不能为空！"}
-  validates :name, :uniqueness => {:message => '卡名称已经存在! '}
+  validates :name, :presence => {:message => "卡名称不能为空！"}, :uniqueness => {:message => '卡名称已经存在! '}
   validates :card_prefix, :presence => {:message => "卡前缀不能为空！"}
   validates :expired, :numericality => true, :presence => {:message => "有效期不能为空！"}
-  validates_numericality_of :min_time ,:only_integer => true, :greater_than => -1, :message => "提醒时间必须为非负整数",:allow_nil => true
-  validates_numericality_of :min_amount,:only_integer => true, :greater_than => -1, :message => "提醒金额必须为非负整数",:allow_nil => true
-  validates_numericality_of :min_count,:only_integer => true, :greater_than =>-1, :message => "提醒次数必须为非负整数",:allow_nil => true
+  with_options(:only_integer => true, :greater_than => -1, :message => "必须为非负整数") do |woo|
+    woo.validates_numericality_of :min_time 
+    woo.validates_numericality_of :min_amount
+    woo.validates_numericality_of :min_count
+  end
 
-  before_save :auto_fill_nil
-  def auto_fill_nil
+  before_save do
     self.min_count = 0 if self.min_count.nil?
     self.min_amount = 0 if self.min_amount.nil?
     self.min_time = 0 if self.min_time.nil?
@@ -37,18 +36,13 @@ class Card < ActiveRecord::Base
       self.card_type == ctype
     end
   end
-  
-  def is_counter_card?
-    true
-  end
 
   def card_balance_desc
     self.is_counter_card? ? "#{self.counts||0}次" : "#{self.balance||0}元"
   end
 
-
-  def generate_card_period_price(period_price)
-    self.card_period_prices.find_all_by_period_price_id(period_price.id).first
+  def period_prices_include?(period_price)
+    self.period_prices.exists?(:id => period_price.id)
   end
 
   def calculate_amount_in_time_span(date,start_hour,end_hour)
