@@ -6,7 +6,6 @@ class BookRecordsController < ApplicationController
   def index
     @courts       = Court.clientable(current_client.id).enabled
     @date = params[:date].blank? ? Date.today : Date.parse(params[:date])
-    #@daily_periods   = PeriodPrice.all_periods_in_time_span(@date)
     @daily_periods   = PeriodPrice.in_time_span.by_period_type(@date).clientable(current_client.id)
     @predate      = @date.yesterday.strftime("%Y-%m-%d")
     @nextdate     = @date.tomorrow.strftime("%Y-%m-%d")    
@@ -15,7 +14,6 @@ class BookRecordsController < ApplicationController
   def print
     @courts       = Court.order('id').all
     @date = params[:date].blank? ? Date.today : Date.parse(params[:date])
-    #@daily_periods   = PeriodPrice.all_periods_in_time_span(@date)
     @daily_periods   = PeriodPrice.in_time_span.by_period_type(@date).clientable(current_client.id)
     render :layout => false
   end

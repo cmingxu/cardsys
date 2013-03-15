@@ -8,10 +8,10 @@
     = f.select :period_type, current_client.to_options("period_type", @period_price.period_type)
 
   - control_helper("start_time", "开始时间") do
-    = f.select :start_time, options_for_select((1..24).to_a.collect{|t| ["#{t}:00", t]}, @period_price.start_time)
+    = f.select :start_time, options_for_select((0..47).to_a.collect{|t| offset = t * 30 * 60; [ (Time.new.beginning_of_day + offset).strftime("%H: %M"), offset]}, @period_price.start_time)
 
   - control_helper("end_time", "结束时间") do
-    = f.select :end_time, options_for_select((1..24).to_a.collect{|t| ["#{t}:00", t]}, @period_price.end_time)
+    = f.select :end_time, options_for_select((0..47).to_a.collect{|t| offset = t * 30 * 60; [ (Time.new.beginning_of_day + offset).strftime("%H: %M"), offset]}, @period_price.end_time)
 
   - control_helper("price", "时段价格") do
     = f.text_field :price

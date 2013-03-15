@@ -11,7 +11,7 @@ class PeriodPricesController < ApplicationController
   end
 
   def new
-    @period_price = PeriodPrice.new
+    @period_price = PeriodPrice.new(:start_time => 7.hours, :end_time => 18.hours)
   end
 
   def edit

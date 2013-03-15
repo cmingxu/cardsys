@@ -2,12 +2,14 @@
 class PeriodPrice < ActiveRecord::Base
   include Clientable
 
-  has_many :card_period_prices
+  has_many :periodable_period_prices
 
   validates :name,  :presence => {:message => "时段名称不能为空！"}
   validates :price, :numericality => {:message => "时段价格必须为数字！"}
 
   validate :validate_start_time_end_time
+  validate :no_overlap_allowed
+  validates_presence_of :start_time, :end_time, :message => "时段开始时间和结束时间不能空"
 
   scope :in_time_span, lambda { |client, start_time = nil, end_time = nil|
     start_time ||= client.start_hour
@@ -15,17 +17,21 @@ class PeriodPrice < ActiveRecord::Base
     where("start_time < ? AND end_time > ?", end_time, start_time).order('start_time asc')
   }
 
-  #scope :by_period_type, lambda { |date = Date.today| 
-  #  date_type = SiteSetting.date_type(date || Date.today)
-  #  where(:period_type => date_type)
-  #}
-
   scope :by_period_type, lambda { |period_type|
     where(:period_type => period_type)
   }
 
   def validate_start_time_end_time
-    self.errors.add(:base, "开始时间应小于结束时间") if self.start_time >= self.end_time 
+    self.errors.add(:start_time, "开始时间应小于结束时间") if self.start_time >= self.end_time 
+  end
+
+  def no_overlap_allowed
+    existing_pp = self.class.where({ :period_type => self.period_type })
+    self.errors.add(:start_time, "时段冲突， 请调整开始或者结束时间") if existing_pp.any?{ |pp| pp.overlaps? self }
+  end
+
+  def overlaps?(other)
+    self.period_type == other.period_type && ((start_time - other.end_time) * (other.start_time - end_time) >= 0)
   end
 
   def is_fit_for?(date)
@@ -65,7 +71,7 @@ class PeriodPrice < ActiveRecord::Base
   end
 
   def can_destroy?
-    self.card_period_prices.blank?
+    self.periodable_period_prices.blank?
   end
 
 end
