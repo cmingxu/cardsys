@@ -26,7 +26,9 @@ module Cardsys
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = 'Beijing'
 
-    config.auto_load_paths = Dir["#{Rails.root}/lib/*"]
+
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
@@ -62,7 +64,7 @@ module Cardsys
       Devise::UnlocksController.layout "devise"
       Devise::PasswordsController.layout "devise"
       
-      authlogic_filters = [:require_user, :authentication_required, :require_no_user, :require_no_authentication]
+      authlogic_filters = [:require_user, :authentication_required, :require_no_user, :require_no_authentication, :ensure_client_domain]
       authlogic_filters.each do |filter|
         Devise::SessionsController.skip_before_filter filter
         Devise::RegistrationsController.skip_before_filter filter

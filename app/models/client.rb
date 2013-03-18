@@ -57,6 +57,10 @@ class Client < ActiveRecord::Base
   after_initialize :init_config
   before_save      :load_config_back
 
+  validates_presence_of   :domain, :message => '球场子域名不能为空。'
+  validates_uniqueness_of :domain, :message => '该域名已经被占用。'
+
+
   def init_config
     self.config = ::Client.default_config.merge(self.config)
     self.config.each do |key, value|
