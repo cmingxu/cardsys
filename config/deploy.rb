@@ -42,9 +42,14 @@ namespace :deploy do
     sudo "/opt/nginx/sbin/nginx"
   end
 
-
   task :stop do
     sudo "/opt/nginx/sbin/nginx -s stop"
   end
+
+  task :udpate_bundle do
+    run "cd #{release_path} && bundle install"
+  end
 end
+
+after "deploy:update_code", :update_bundle
 
