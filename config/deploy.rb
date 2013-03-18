@@ -55,3 +55,11 @@ end
 
 after "deploy:update_code", "deploy:update_bundle"
 
+namespace :db do
+  task :db_config, :except => { :no_release => true }, :role => :app do
+    run "cp -f ~/database.yml #{release_path}/config/database.yml"
+  end
+end
+
+after "deploy:finalize_update", "db:db_config"
+
