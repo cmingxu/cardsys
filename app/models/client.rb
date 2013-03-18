@@ -52,6 +52,8 @@ class Client < ActiveRecord::Base
     attr_accessible item.to_sym
   end
 
+  attr_accessible :domain
+
   after_initialize :init_config
   before_save      :load_config_back
 

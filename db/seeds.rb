@@ -14,8 +14,8 @@ Power.delete_all
 Identity.delete_all
 
 user = Identity.create(:email => "admin@example.com",:password => "admin01",:password_confirmation => "admin01")
-bodewei = Client.create :name => "博徳维", :locked => false
-aoyuan  = Client.create :name => "奥园",   :locked => false
+bodewei = Client.create :name => "博徳维", :locked => false, :domain => "bdw"
+aoyuan  = Client.create :name => "奥园",   :locked => false, :domain => "ay"
 bodewei_admin = bodewei.users.create(:login => "bodewei_admin", :password => "admin01", :password_confirmation => "admin01", :user_name => "管理员", :role => User::CLINET_ADMIN)
 aoyuan_admin  = aoyuan.users.create(:login => "aoyuan_admin", :password => "admin01", :password_confirmation => "admin01", :user_name => "管理员", :role => User::CLINET_ADMIN)
 dep_admin_bodewei =  Department.create(:client => bodewei, :name => "_管理员")
