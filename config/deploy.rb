@@ -57,9 +57,9 @@ after "deploy:update_code", "deploy:update_bundle"
 
 namespace :db do
   task :db_config, :except => { :no_release => true }, :role => :app do
-    run "cp -f #{release_path}/database.template #{release_path}/config/database.yml"
+    run "cp -f #{release_path}/config/database.template #{release_path}/config/database.yml"
   end
 end
 
-after "deploy:finalize_update", "db:db_config"
+after "deploy:update_code", "db:db_config"
 
