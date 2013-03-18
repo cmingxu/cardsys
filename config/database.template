@@ -30,6 +30,6 @@ production:
   database: cardsys
   pool: 5
   username: root
-  password:
-  socket: /tmp/mysql.sock
+  password: root
+  socket: /var/run/mysqld/mysqld.sock
 
