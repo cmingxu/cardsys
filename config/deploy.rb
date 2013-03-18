@@ -51,5 +51,5 @@ namespace :deploy do
   end
 end
 
-before "deploy:update_code", :update_bundle
+before "deploy:update_code", "deploy:update_bundle"
 
