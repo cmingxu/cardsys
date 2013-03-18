@@ -1,3 +1,5 @@
+require "rvm/capistrano"
+
 set :application, "cardsys"
 set :repository,  "git@github.com:cmingxu/cardsys.git"
 
@@ -46,10 +48,10 @@ namespace :deploy do
     sudo "/opt/nginx/sbin/nginx -s stop"
   end
 
-  task :udpate_bundle do
+  task :update_bundle do
     run "cd #{release_path} && bundle install"
   end
 end
 
-before "deploy:update_code", "deploy:update_bundle"
+after "deploy:update_code", "deploy:update_bundle"
 
