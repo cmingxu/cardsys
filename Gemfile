@@ -48,3 +48,4 @@ end
 #gem 'debugger'
 
 gem 'haml-rails'
+gem 'capistrano'
