@@ -23,6 +23,7 @@ gem 'newrelic_rpm'
 
 group :test, :development do
   gem 'rails3-generators'
+  gem 'rspec'
   gem 'rspec-rails'
   gem 'spork', '~> 1.0rc'
   gem 'shoulda-matchers'
