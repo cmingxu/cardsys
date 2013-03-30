@@ -64,16 +64,6 @@ class CourtsController < ApplicationController
     @court_book_records = @court_book_records.paginate(default_paginate_options.merge!(:order => "id asc"))
   end
 
-#  def coach_status_search
-#    @coach_book_records = CoachBookRecord.all
-#    @coach_book_records = @coach_book_records.select{ |cbr| cbr.coach.try(:name) == params[:name].strip } if params[:name].present?
-#    @coach_book_records = @coach_book_records.select{ |cbr| cbr.order.try(:member_name) == params[:member_name].strip } if params[:member_name].present?
-#    @coach_book_records = @coach_book_records.select{ |cbr| cbr.alloc_date.strftime("%Y-%m-%d") == params[:search_date].strip } if params[:search_date].present?
-#    @coach_book_records = @coach_book_records.select{ |cbr| cbr.try(:start_hour) >= params[:start_hour].strip.to_i } if params[:start_hour].present?
-#    @coach_book_records = @coach_book_records.select{ |cbr| cbr.try(:end_hour) <= params[:end_hour].strip.to_i } if params[:end_hour].present?
-#    @coach_book_records = @coach_book_records.paginate(default_paginate_options.merge!(:order => "id asc"))
-#  end
-
   def court_record_detail
     @court = Court.where(:name => params[:court_name]).first
     @search_hour = params[:search_hour] ||= Date.today
@@ -94,17 +84,16 @@ class CourtsController < ApplicationController
   protected
 
   def generate_period_prices
-    # @period_prices = PeriodPrice.search_order
-    @period_prices = PeriodPrice.order('start_time')
+    @period_prices = PeriodPrice.clientable(current_client.id).order('start_time')
   end
 
   private
 
   def format_court_period_price(court)
-    court.court_period_prices = []
+    court.period_prices = []
     for period_price in (PeriodPrice.find params[:time_available] || [])
-      court.court_period_prices << CourtPeriodPrice.new(:period_price_id => period_price.id,
-                                                        :court_price =>  period_price.price)
+      court.periodable_period_prices << PeriodablePeriodPrice.new(:period_price_id => period_price.id,
+                                                                  :price =>  period_price.price)
     end
   end
 end

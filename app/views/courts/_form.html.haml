@@ -31,7 +31,7 @@
         %th 可用
         %th 说明
     %tbody
-      - PeriodPrice.all.each_with_index do |pp,index|
+      - @period_prices.each_with_index do |pp,index|
         %tr
           %td= index.succ
           %td= pp.name + "#{pp.start_time}:00-#{pp.end_time}:00"
