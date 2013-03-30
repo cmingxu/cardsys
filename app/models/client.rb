@@ -72,6 +72,7 @@ class Client < ActiveRecord::Base
     self.config = Hash[
       Client.default_config.keys.collect{|key| [key, self.send("#{key}")] }
     ]
+    p self.config
   end
 
   def self.default_config

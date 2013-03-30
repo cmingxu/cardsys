@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_date
   before_filter :require_user
   before_filter :authentication_required
-  
+
   before_filter :ensure_client_domain
 
   helper_method :current_user_session, :current_user, :current_client
@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   #rescue_from Exception, :with => :render_404
 
   protected
-  
+
   # redirect to subdomain when client login
   def ensure_client_domain
     subdomain = request.subdomains(0).first

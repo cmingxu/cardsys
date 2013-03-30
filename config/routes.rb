@@ -2,16 +2,19 @@
 Cardsys::Application.routes.draw do 
 
 
-  constraints(Subdomain) do
+  constraints(Subdomain.new) do
     get "/dashboard", :to => "welcome#dashboard"
 
     resources :clients
 
     get "powers/index"
-
     get "powers/edit"
 
-    resources :settings
+
+    resources :settings, :except => [:new, :edit, :update, :create, :destroy] do
+      post :modify, :on => :collection
+    end
+
     resources :rents
 
     resources :lockers do
@@ -25,11 +28,10 @@ Cardsys::Application.routes.draw do
     resources :categories
     resources :logs
 
-    get "welcome/backup"
-    delete "welcome/delete_backup"
-
-    get "welcome/about"
-    get "welcome/backup_db"
+    get     "welcome/backup"
+    delete  "welcome/delete_backup"
+    get     "welcome/about"
+    get     "welcome/backup_db"
 
     get "reports/coach"
     get "reports/good_search"
@@ -50,7 +52,6 @@ Cardsys::Application.routes.draw do
       member do
         put :switch_state
       end
-
     end
 
     resources :orders do
@@ -67,13 +68,13 @@ Cardsys::Application.routes.draw do
       end
 
       resources :balances do
-        collection do 
+        collection do
           get :balanced
         end
       end
 
       resources :goods do
-        collection do 
+        collection do
           get :goods
         end
       end
@@ -277,8 +278,7 @@ Cardsys::Application.routes.draw do
     match 'account' => "user#show"
     match 'admin_dashboard' => "admin/welcome#dashboard"
 
-    root :to => "orders#index"
-    
+    root :to  => "orders#index"
     match "/" => "orders#index"
   end
 

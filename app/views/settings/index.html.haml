@@ -1,5 +1,5 @@
 = form_header(:title => "系统配置", :link => "")
-= form_for(current_client, :url => settings_path, :html => {:class => "form-horizontal well", :method => :post, :id => "setting_form"}) do |f|
+= form_for(current_client, :url => modify_settings_path, :html => {:class => "form-horizontal well", :method => :post, :id => "setting_form"}) do |f|
 
   - control_helper("site_name", "名称", :left) do
     = f.text_field "site_name"  

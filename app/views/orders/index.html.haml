@@ -15,7 +15,7 @@
 
 %div{:style => "height:3px;"}
 .content
-  %ul.nav.nav-tabs#tab
+  %ul.nav.nav-tabs#tab{:style => 'margin-bottom: 12px;'}
     - current_client.court_type.each_with_index do |court_type, index|
       %li{:class => index == 0 ? "active" : ""}
         %a{:href => "##{court_type}_#{index}", "data-toggle" => "tab"}
