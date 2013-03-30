@@ -39,7 +39,11 @@ class User < ActiveRecord::Base
   end
 
   def powers
-    self.departments.collect(&:powers).flatten.uniq 
+    self.departments.collect(&:powers).flatten.uniq
+  end
+
+  def top_powers
+    powers.select {|p| p.parent_id.zero?}
   end
 
   def menus

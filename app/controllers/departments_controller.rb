@@ -2,7 +2,7 @@
 class DepartmentsController < ApplicationController
   before_filter :load_department, :only => [:show, :edit, :update, :destroy, :department_power_index, :department_power_update]
   def index
-    @departments = Department.clientable(current_client.id)
+    @departments = Department.clientable(current_client.id).viewable_to_client
   end
 
   def show
