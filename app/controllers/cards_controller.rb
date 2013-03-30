@@ -3,7 +3,6 @@ class CardsController < ApplicationController
   before_filter :load_card, :only => [:show, :edit, :update, :destroy]
 
   def index
-    # @cards = Card.paginate(default_paginate_options)
     @cards = Card.paginate_by_client(current_client.id, default_paginate_options)
   end
 
@@ -15,9 +14,13 @@ class CardsController < ApplicationController
   def create
     @card = Card.new(params[:card])
     @period_prices = PeriodPrice.clientable(current_client.id).order("start_time")
-    #设置卡的时段价格
-    format_card_period_price @card
     @card.client_id = current_client.id if current_client
+    #设置卡的时段价格
+
+    @card.period_prices = PeriodPrice.find params[:time_available].keys
+    @card.periodable_period_prices.each do |element|
+      element.price = params[:time_discount][element.periodable_id]
+    end
 
     if @card.save
       redirect_to(cards_path, :notice => '卡信息创建成功！') 
@@ -27,10 +30,12 @@ class CardsController < ApplicationController
   end
 
   def update
-    CardPeriodPrice.delete_all("card_id = #{params[:id]}")
-    format_card_period_price @card
-
-    if @card.update_attributes(params[:card]) 
+    @card.period_prices = PeriodPrice.find params[:time_available].keys
+    @card.periodable_period_prices.each do |element|
+      element.price = params[:time_discount][element.period_price_id.to_s]
+      puts element.changed?
+    end
+    if @card.save
       redirect_to(cards_path, :notice => '卡信息修改成功！') 
     else
       render :action => "edit" 
@@ -69,15 +74,6 @@ class CardsController < ApplicationController
 
   def format_card_period_price(card)
     for period_price in PeriodPrice.clientable(current_client.id).order('start_time')
-      #被选中可用的时段
-      if params["time_available_#{period_price.id}"]
-        price = params["time_discount_#{period_price.id}"]
-        if price.nil? || price.blank?
-          price = 0
-        end
-        card.card_period_prices << CardPeriodPrice.new(:period_price_id => period_price.id,
-                                                       :card_price =>  price)
-      end
     end
   end
 

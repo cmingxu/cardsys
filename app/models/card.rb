@@ -13,7 +13,7 @@ class Card < ActiveRecord::Base
   }
   
   has_many :members_cards
-  has_many :periodable_period_prices, :as => :periodable
+  has_many :periodable_period_prices, :as => :periodable, :autosave => true
   has_many :period_prices, :through => :periodable_period_prices
 
   validates :name, :presence => {:message => "卡名称不能为空！"}, :uniqueness => {:message => '卡名称已经存在! '}
@@ -34,6 +34,14 @@ class Card < ActiveRecord::Base
   CARD_TYPE.each do |ctype, name|
     define_method "is_#{ctype}?" do
       self.card_type == ctype
+    end
+  end
+
+  def price_with_period_price(pp)
+    if period_prices_include?(pp)
+      self.periodable_period_prices.find{|ppp| ppp.period_price_id == pp.id }.price
+    else
+      pp.price
     end
   end
 
