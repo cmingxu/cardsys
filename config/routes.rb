@@ -279,7 +279,6 @@ Cardsys::Application.routes.draw do
     match 'admin_dashboard' => "admin/welcome#dashboard"
 
     root :to  => "orders#index"
-    match "/" => "orders#index"
   end
 
 
@@ -293,7 +292,7 @@ Cardsys::Application.routes.draw do
 
   resource :user_session
   
-  get "/",          :to => "user_sessions#new"
+  # get "/",          :to => "user_sessions#new"
   get "/login",     :to => "user_sessions#new",     :as => :login
   delete "/logout", :to => "user_sessions#destroy", :as => :logout
 

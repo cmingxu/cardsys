@@ -101,50 +101,49 @@ class ApplicationController < ActionController::Base
       redirect_to login_path
       return false
     end
+  end
 
-
-    def require_no_user
-      if current_user
-        store_location
-        flash[:notice] = I18n.t("session_user.require_login")
-        redirect_to account_url
-        return false
-      end
+  def require_no_user
+    if current_user
+      store_location
+      flash[:notice] = I18n.t("session_user.require_login")
+      redirect_to account_url
+      return false
     end
+  end
 
-    def redirect_back_or_default(default)
-      redirect_to(session[:return_to] || default)
-      session[:return_to] = nil
-    end
+  def redirect_back_or_default(default)
+    redirect_to(session[:return_to] || default)
+    session[:return_to] = nil
+  end
 
-    def default_paginate_options
-      {:page => params[:page] || 1, :per_page => 20, :order => "created_at DESC"}
-    end
+  def default_paginate_options
+    {:page => params[:page] || 1, :per_page => 20, :order => "created_at DESC"}
+  end
 
-    def cart
-      session[:cart] ||= Cart.new
-    end
+  def cart
+    session[:cart] ||= Cart.new
+  end
 
-    def log_action(item, log_type, user = nil, desc = nil)
-      Log.log(self, item, log_type, user, desc) 
-    end
+  def log_action(item, log_type, user = nil, desc = nil)
+    Log.log(self, item, log_type, user, desc) 
+  end
 
-    def login_and_password_valid?
-      @user = User.find_by_login(params[:user_name])
-      @user.try(:valid_password?,params[:password])
-    end
+  def login_and_password_valid?
+    @user = User.find_by_login(params[:user_name])
+    @user.try(:valid_password?,params[:password])
+  end
 
-    def render_404
-      render :template => 'layouts/404', :layout => false, :status => :not_found
-    end
-    
-    # for devise
-    def after_sign_in_path_for(resource)
-      admin_clients_path
-    end 
+  def render_404
+    render :template => 'layouts/404', :layout => false, :status => :not_found
+  end
 
-    def after_sign_out_path_for(resource)
-      "/signin"
-    end
+  # for devise
+  def after_sign_in_path_for(resource)
+    admin_clients_path
+  end 
+
+  def after_sign_out_path_for(resource)
+    "/signin"
   end
 end
