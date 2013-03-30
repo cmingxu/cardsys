@@ -3,7 +3,7 @@ class Court < ActiveRecord::Base
   include HashColumnState
   include Clientable
 
-  has_many :periodable_period_prices, :as => :periodable, :autosave => true
+  has_many :periodable_period_prices, :as => :periodable
   has_many :period_prices, :through => :periodable_period_prices
   has_many :book_records, :as => :resource
 
@@ -78,7 +78,7 @@ class Court < ActiveRecord::Base
 
   def open_hours_range(date = Date.today)
     pps = period_prices_by_date(date)
-    pps.first.start_time..pps.last.end_time
+    pps.first.start_time/3600..pps.last.end_time/3600
   end
 
   def end_hour(date=Date.today)
