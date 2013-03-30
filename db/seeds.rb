@@ -39,9 +39,13 @@ include Rails.application.routes.url_helpers
 config = YAML::load(ERB.new(IO.read(Rails.root + "config/menus_and_powers.yml")).result)
 config.each_key do |menu|
   this_menu = config[menu]
-  p = Power.create(:subject => this_menu.fetch('name'), :path => this_menu.fetch('default_path'))
+  p = Power.create(:subject => this_menu.fetch('name'), :path => this_menu.fetch('default_path'), :parent_id => 0)
   this_menu.fetch('submenus').try(:each_key) do |submenu|
-    Power.create(:subject => this_menu.fetch('submenus')[submenu], :path => send(submenu))
+    if submenu.start_with?("_")
+      p.children.create(:subject => this_menu.fetch('submenus')[submenu], :path => "")
+    else
+      p.children.create(:subject => this_menu.fetch('submenus')[submenu], :path => send(submenu))
+    end
   end
 end
 

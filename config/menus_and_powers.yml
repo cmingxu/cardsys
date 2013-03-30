@@ -33,6 +33,8 @@ book_record:
     orders_path: "新场地预定"
     court_status_search_courts_path: "场地预定情况查询"
     coach_status_search_courts_path: "教练日程查询"
+    _delete_order: "删除场地预订"
+    _can_order_over_time: "过期预订"
 
 goods:
   name: "库存管理"

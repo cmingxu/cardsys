@@ -10,6 +10,8 @@ class Department < ActiveRecord::Base
   has_many :department_powers
   has_many :powers, :through => :department_powers
 
+  scope :viewable_to_client, where("name not like '\\_%'")
+
 
   def has_power? power
     self.powers and self.powers.include?(power)
