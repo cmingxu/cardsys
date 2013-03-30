@@ -167,7 +167,8 @@ module OrdersHelper
 
 
   def court_status_in_period_with_period_prices(date, start_hour, court, period_prices)
-    pp = period_prices.select { |element| element.start_time <= start_hour && element.end_time >= start_hour + 1}
+    start_hour = start_hour*3600
+    pp = period_prices.select { |element| element.start_time <= start_hour && element.end_time >= start_hour + 3600}
     return content_tag(:td, "场地不可用") unless court.is_useable_in_time_span?(pp)
     book_record = court.book_record_start_at(date, start_hour)
     return content_tag(:td, content_tag(:a, display_content(book_record),:href=> edit_order_path(book_record.order), :class => "popup-new-window"), 

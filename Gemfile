@@ -4,7 +4,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.2.1'
 
 gem 'mysql2'
-
+gem 'thin'
 gem 'rails3-jquery-autocomplete', '>= 0.2.0'
 gem 'acts_as_tree'
 gem 'state_machine', '1.1.0'

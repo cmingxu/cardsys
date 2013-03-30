@@ -34,7 +34,7 @@
                 %td
                   = court.name
 
-              - ((@daily_periods.first.try(:start_time) || 0)..((@daily_periods.last.try(:end_time) || 1) - 1)).each do |hour_start|
+              - (((@daily_periods.first.try(:start_time) || 0) / 3600)..(((@daily_periods.last.try(:end_time) || 1) - 1)/3600)).each do |hour_start|
                 %tr.period
                   %td.first_td
                     = "#{hour_start}:00-#{hour_start.next}:00"

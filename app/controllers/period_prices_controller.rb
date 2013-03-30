@@ -35,7 +35,7 @@ class PeriodPricesController < ApplicationController
 
   def update
     if @period_price.update_attributes(params[:period_price])
-      redirect_to @period_price, :notice => '时段价格修改成功！' 
+      redirect_to period_prices_path, :notice => '时段价格修改成功！' 
     else
       render :action => "edit" 
     end

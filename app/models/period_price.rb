@@ -14,6 +14,8 @@ class PeriodPrice < ActiveRecord::Base
   scope :in_time_span, lambda { |client, start_time = nil, end_time = nil|
     start_time ||= client.start_hour
     end_time   ||= client.end_hour
+    start_time = start_time.to_i * 3600
+    end_time = end_time.to_i * 3600
     where("start_time < ? AND end_time > ?", end_time, start_time).order('start_time asc')
   }
 
@@ -31,7 +33,8 @@ class PeriodPrice < ActiveRecord::Base
   end
 
   def overlaps?(other)
-    self.period_type == other.period_type && ((start_time - other.end_time) * (other.start_time - end_time) >= 0)
+    #self.period_type == other.period_type && ((start_time - other.end_time) * (other.start_time - end_time) >= 0)
+    self.period_type == other.period_type && ((start_time - other.end_time) >= 0)
   end
 
   def is_fit_for?(date)
