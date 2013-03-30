@@ -293,10 +293,11 @@ Cardsys::Application.routes.draw do
   resource :user_session
   
   # get "/",          :to => "user_sessions#new"
+
   get "/login",     :to => "user_sessions#new",     :as => :login
   delete "/logout", :to => "user_sessions#destroy", :as => :logout
 
-  root :to => "user_sessions#new", :as => :login
+  #root :to => "user_sessions#new", :as => :login
 
   devise_for :identities, :skip => [:sessions]
   as :identity do

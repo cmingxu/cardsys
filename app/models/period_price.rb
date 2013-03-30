@@ -26,7 +26,7 @@ class PeriodPrice < ActiveRecord::Base
   end
 
   def no_overlap_allowed
-    existing_pp = self.class.where({ :period_type => self.period_type })
+    existing_pp = self.class.where({ :period_type => self.period_type, :client_id => self.client_id })
     self.errors.add(:start_time, "时段冲突， 请调整开始或者结束时间") if existing_pp.any?{ |pp| pp.overlaps? self }
   end
 

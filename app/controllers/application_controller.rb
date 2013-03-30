@@ -98,7 +98,7 @@ class ApplicationController < ActionController::Base
     unless current_user
       store_location
       flash[:notice] = I18n.t("session_user.require_login")
-      redirect_to login_path
+      redirect_to '/login'
       return false
     end
   end
