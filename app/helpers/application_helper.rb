@@ -6,10 +6,8 @@ module ApplicationHelper
   end
 
   def left_nav_active?(url)
-    # current_url = url_for(:controller => controller_name, :action_name => action_name)
     url_hash = Rails.application.routes.recognize_path(url)
     (url_hash[:controller] == controller_name and url_hash[:action] == action_name) ? "active" : ''
-    # current_url.start_with?(url) ? "active" : ""
   end
 
   def current_active_courts_tab
@@ -53,6 +51,12 @@ module ApplicationHelper
      {:image_offset => "9", :link => "/users",  :sub_menu => "authorize_menu", :display => "权限管理"},
      {:image_offset => "1", :link => "/logs",  :sub_menu => "system_menu", :display => "系统管理"}
     ].select{|menu| current_user.menus.include? menu[:display]}
+
+    current_user.top_powers.map do |p|
+      {:link => p.path,
+       :display => p.subject 
+      }
+    end
   end
 
   def should_display_common_memu?
