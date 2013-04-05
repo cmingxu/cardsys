@@ -2,9 +2,8 @@ require 'erb'
 
 desc "migrate from cardsys_dev db"
 
-#TODO
-# add old_id column dynamiclly
-# relationship. remove old_id
+# make sure client_id of period-prices set 
+#
 task :migrate_old_db => :environment do
   SKIP_LIST = ["Department", "UserPower", "Power", "DepartmentPower"]
   SKIP_LIST.push "BookRecord"
@@ -29,9 +28,6 @@ task :migrate_old_db => :environment do
     next if File.directory?(model_file)
     require model_file
   end
-
-  ap old_db
-  ap new_db
 
   # normal
   ActiveRecord::Base.subclasses.each do |klass|

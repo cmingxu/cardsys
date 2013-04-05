@@ -1,4 +1,4 @@
 = table_header(:title => "时段价格列表", :link => new_period_price_path, :link_text => "创建时段")
-- columns = {:name => "名称", :period_type => "时段类型", :start_time => "开始时间", :end_time => "结束时间", :price => "价格", :description => "说明" }
+- columns = {:name => "名称", :period_type => "时段类型", "start_time|time_offset_display" => "开始时间", "end_time|time_offset_display" => "结束时间", :price => "价格", :description => "说明" }
 = render :partial => "layouts/table", :locals => {:collection => @period_prices, :columns => columns}
 = render :partial => "layouts/page_nav", :locals => { :objs => @period_prices }
