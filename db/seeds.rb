@@ -49,7 +49,7 @@ config.each_key do |menu|
   end
 end
 
-dep_admin_bodewei.powers = dep_admin_aoyuan.powers = Power.all.select {|p| !p.subject.start_with?("_")}
+dep_admin_bodewei.powers = dep_admin_aoyuan.powers = Power.all.select {|p| p.subject && !p.subject.start_with?("_")}
 dep_admin_bodewei.save
 dep_admin_aoyuan.save
 
@@ -58,9 +58,9 @@ aoyuan_admin.departments << dep_admin_aoyuan
 bodewei_admin.save
 aoyuan_admin.save
 
-ActiveRecord::Base.connection.execute PeriodPriceStatement
-ActiveRecord::Base.connection.execute CardStatement
-ActiveRecord::Base.connection.execute CourtStatement
+# ActiveRecord::Base.connection.execute PeriodPriceStatement
+# ActiveRecord::Base.connection.execute CardStatement
+# ActiveRecord::Base.connection.execute CourtStatement
 
 PeriodPrice.update_all("client_id = #{bodewei_admin.client_id}")
 Card.update_all("client_id = #{bodewei_admin.client_id}")
