@@ -66,6 +66,8 @@ class Client < ActiveRecord::Base
     self.config.each do |key, value|
       self.send "#{key}=", value
     end
+
+    self.config.extend Setting2SelectOptions
   end
 
   def load_config_back

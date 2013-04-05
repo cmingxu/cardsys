@@ -3,18 +3,16 @@ class Locker < ActiveRecord::Base
   include Clientable
 
   LOCKER_STATE = {:empty => "未使用",:rented => "出租中"}
-  validates :num,:presence => true
+  validates :num, :presence => true
 
-  has_many :rents,:dependent => :destroy
-  validate :num,:state,:locker_type ,:presence => true,:message => "{column}以上字段不能空"
+  has_many :rents, :dependent => :destroy
+  validate :num, :state, :locker_type ,:presence => true,:message => "{column}以上字段不能空"
 
   def current_rent(date = Date.today)
     self.rents.select {|r| r.rent_state == "enable" }.first
   end
 
-  def locker_type_in_words
-    CommonResourceDetail.find_by_id(self.locker_type).try(:detail_name) || "未知"
-  end
+
 
   before_create :generate_num
 
