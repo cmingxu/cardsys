@@ -320,4 +320,8 @@ module ApplicationHelper
                        :class => "control-group", :style => style))
 
   end
+
+  def time_offset_display(offset)
+    (Date.today.beginning_of_day + offset).strftime("%H:%M")
+  end
 end

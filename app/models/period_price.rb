@@ -21,6 +21,9 @@ class PeriodPrice < ActiveRecord::Base
     self.errors.add(:start_time, "时段冲突， 请调整开始或者结束时间") if existing_pp.any?{ |pp| pp.overlaps? self }
   end
 
+  def overlaps?(other_time_range)
+    self != other_time_range && (start_time - other_time_range.end_time) * (other_time_range.start_time - end_time) >= 0
+  end
 
 end
 

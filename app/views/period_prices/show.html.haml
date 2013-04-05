@@ -9,10 +9,10 @@
 
 
   - show_helper(:start_time, "开始时间",:left) do
-    = @period_price.start_time
+    = time_offset_display(@period_price.start_time)
 
   - show_helper(:end_time, "结束时间",:right) do
-    = @period_price.end_time
+    = time_offset_display(@period_price.end_time)
 
 
   - show_helper(:price, "收费标准",:left) do

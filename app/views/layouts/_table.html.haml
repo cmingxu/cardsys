@@ -15,8 +15,10 @@
           %td
             - if k.to_s == "start_date" || k.to_s == "end_date" || k.to_s == "created_at" || k.to_s == "birthday" || k.to_s == "expire_date"
               = (e.send k).try(:to_chinese_ymd)
+            - elsif String === k && k.include?("|")
+              = send(k.split("|")[1], e.send((k.split("|")[0])))
             - else
-              =e.send k
+              = e.send k
 
         - if !defined?no_operation
           %td
