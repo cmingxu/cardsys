@@ -6,6 +6,12 @@ desc "migrate from cardsys_dev db"
 # add old_id column dynamiclly
 # relationship. remove old_id
 task :migrate_old_db => :environment do
+  SKIP_LIST = ["Department", "UserPower", "Power", "DepartmentPower"]
+  SKIP_LIST.push "BookRecord"
+  SKIP_LIST.push "CourtBookRecord"
+  SKIP_LIST.push "CoachBookRecord"
+  SKIP_LIST.push "Balance"
+
   class CardPeriodPrice < ActiveRecord::Base
   end
   class CourtPeriodPrice < ActiveRecord::Base
@@ -31,21 +37,23 @@ task :migrate_old_db => :environment do
   ActiveRecord::Base.subclasses.each do |klass|
     klass.establish_connection old_db
     ap klass.table_name
+    next if SKIP_LIST.include?(klass.name)
     next unless klass.table_exists?
     klass.all.each do |old_record|
       klass.establish_connection new_db
+      klass.reset_column_information
       break unless klass.table_exists?
       new_record = klass.new
       kvpair = old_record.attributes.slice(*klass.column_names)
-      ap '============='
-      ap old_record.attributes
-      ap klass.column_names
-      ap kvpair
+      #ap '============='
+      #ap old_record.attributes
+      #ap klass.column_names
+      #ap kvpair
       kvpair[:client_id] = client_id if new_record.attributes.keys.include?(:client_id)
       case klass.table_name
       when "period_prices"
-        kvpair[:start_time] = old_record.start_hour * 60 * 60
-        kvpair[:end_time]   = old_record.end_hour * 60 * 60
+        kvpair["start_time"] = old_record.start_time * 60 * 60
+        kvpair["end_time"]   = old_record.end_time * 60 * 60
       when "book_records"
         kvpair[:start_time] = old_record.alloc_date + old_record.start_hour.hours
         kvpair[:end_time]   = old_record.alloc_date + old_record.end_hour.hours
@@ -71,13 +79,3 @@ task :migrate_old_db => :environment do
   end
 end
 
-{
-               "id" => 11,
-      "resource_id" => 15,
-    "resource_type" => "Court",
-         "end_hour" => 22,
-       "start_hour" => 20,
-       "alloc_date" => "Fri, 27 Jul 2012",
-         "order_id" => 11,
-             "type" => "CourtBookRecord"
-}

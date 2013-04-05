@@ -6,14 +6,14 @@
 
 
   - control_helper("gender", "性别") do
-    = f.radio_button(:gender,CommonResource::Gender_Man)
+    = f.radio_button(:gender, "male")
     = "男"
-    = f.radio_button(:gender,CommonResource::Gender_Woman)
+    = f.radio_button(:gender, "female")
     = "女"
 
 
   - control_helper("coach_type", "类型") do
-    = f.select :coach_type, Setting.coach_types
+    = f.select :coach_type, current_client.config["coach_type"]
 
   - control_helper("telephone", "电话") do
     = f.text_field :telephone
@@ -22,7 +22,7 @@
     = f.text_field :email
 
   - control_helper("cert_type", "证件类型") do
-    = f.select :cert_type, Setting.cert_type_options(@coach.cert_type), :id => "cert_type"
+    = f.select :cert_type, current_client.to_options("cert_type", @coach.cert_type), :id => "cert_type"
 
 
   - control_helper("cert_num", "证件号码") do

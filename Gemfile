@@ -29,6 +29,7 @@ group :test, :development do
   gem 'shoulda-matchers'
   gem 'erb2haml'
   gem 'magic_encoding'
+  gem 'zeus'
 end
 
 gem 'twitter-bootstrap-rails', '2.0.3'
