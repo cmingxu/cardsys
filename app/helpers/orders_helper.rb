@@ -167,13 +167,12 @@ module OrdersHelper
 
 
   def court_status_in_period_with_period_prices(date, start_hour, court, period_prices)
-    start_hour = start_hour*3600
-    pp = period_prices.select { |element| element.start_time <= start_hour && element.end_time >= start_hour + 3600}
+    pp = period_prices.select { |element| element.start_time <= start_hour && element.end_time >= start_hour}
     return content_tag(:td, "场地不可用") unless court.is_useable_in_time_span?(pp)
     book_record = court.book_record_start_at(date, start_hour)
     return content_tag(:td, content_tag(:a, display_content(book_record),:href=> edit_order_path(book_record.order), :class => "popup-new-window"), 
                        :rowspan => book_record.hours, :class => "#{book_record.order.status_color}") if book_record.present? && book_record.order
-    new_order_params= {:alloc_date => date.to_s(:db), :resource_id => court.id, :start_time => start_hour, :end_time => start_hour + 3600}
+    new_order_params= {:alloc_date => date.to_s(:db), :resource_id => court.id, :start_time => start_hour, :end_time => start_hour}
     book_url = new_order_path(:court_book_record => new_order_params)
     if (date + start_hour.hours) > Time.now || current_user.can_book_when_time_due?
       return content_tag(:td,  content_tag(:a, "预订", :href=> book_url,:class => "popup-new-window btn ")) if court.can_be_book?(date, start_hour)

@@ -6,10 +6,6 @@ desc "migrate from cardsys_dev db"
 #
 task :migrate_old_db => :environment do
   SKIP_LIST = ["Department", "UserPower", "Power", "DepartmentPower"]
-  SKIP_LIST.push "BookRecord"
-  SKIP_LIST.push "CourtBookRecord"
-  SKIP_LIST.push "CoachBookRecord"
-  SKIP_LIST.push "Balance"
 
   class CardPeriodPrice < ActiveRecord::Base
   end
@@ -20,7 +16,7 @@ task :migrate_old_db => :environment do
     ActiveRecord::Base.connection.execute "INSERT into #{table_name}(#{kvpairs.keys.join(',')}) values ('#{kvpairs.values.join('\',\'')}');"
   end
 
-  client_id = 1# Client.find_by_domain('bdw').id
+  client_id = 1
   old_db = YAML.load(ERB.new(File.read("#{Rails.root}/config/database.yml")).result)["old"]
   new_db = YAML.load(ERB.new(File.read("#{Rails.root}/config/database.yml")).result)["development"]
 
@@ -41,19 +37,7 @@ task :migrate_old_db => :environment do
       break unless klass.table_exists?
       new_record = klass.new
       kvpair = old_record.attributes.slice(*klass.column_names)
-      #ap '============='
-      #ap old_record.attributes
-      #ap klass.column_names
-      #ap kvpair
       kvpair[:client_id] = client_id if new_record.attributes.keys.include?(:client_id)
-      case klass.table_name
-      when "period_prices"
-        kvpair["start_time"] = old_record.start_time * 60 * 60
-        kvpair["end_time"]   = old_record.end_time * 60 * 60
-      when "book_records"
-        kvpair[:start_time] = old_record.alloc_date + old_record.start_hour.hours
-        kvpair[:end_time]   = old_record.alloc_date + old_record.end_hour.hours
-      end
       insert_statement(klass.table_name, kvpair)
     end
   end
