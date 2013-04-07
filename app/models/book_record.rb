@@ -26,15 +26,6 @@ class BookRecord < ActiveRecord::Base
   scope :playing, where(:status => Status_Active)
   scope :balanced, where(:status => Status_Settling)
 
-  def start_time
-    alloc_date + start_hour.hours
-  end
-
-  def end_time
-    alloc_date + end_hour.hours
-  end
-
-
   def start_date_time
     day = self.alloc_date.to_datetime
     Time.local(day.year, day.month, day.day, start_hour)

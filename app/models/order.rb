@@ -4,10 +4,10 @@ class Order < ActiveRecord::Base
   include Logable
 
   OPMAP = { "activate"         => "开场",
-            "want_sell"        => "申请代卖",
-            "all_cancel"       => "连续取消",
-            "cancel_want_sell" => "取消代卖",
-            "cancel"           => "取消预订" }
+    "want_sell"        => "申请代卖",
+    "all_cancel"       => "连续取消",
+    "cancel_want_sell" => "取消代卖",
+    "cancel"           => "取消预订" }
   include Authenticateable
   include Clientable
 
@@ -81,7 +81,7 @@ class Order < ActiveRecord::Base
 
   def batch_order
     return true unless self.possible_batch_order
-      
+
     self.class.wdate_between(self.order_date, self.end_date).each do |date|
       new_order = Order.new(self.attributes.except("id"))
       # prevent for futher copy, orelse this may lead to loop
@@ -146,9 +146,9 @@ class Order < ActiveRecord::Base
     self.errors.add(:court_id, "此场地已被预定") if\
       self.new_record? && \
       CourtBookRecord.where(:alloc_date => self.court_book_record.alloc_date, 
-                              :resource_id => self.court_book_record.resource_id)
+                            :resource_id => self.court_book_record.resource_id)
     .where(["start_hour < :end_time AND end_hour > :start_time",
-            {:start_time => self.court_book_record.start_hour,
+           {:start_time => self.court_book_record.start_hour,
              :end_time => self.court_book_record.end_hour}]).present?
   end
 
@@ -220,7 +220,7 @@ class Order < ActiveRecord::Base
     end
 
     def can_cancel?
-       self.client.can_cancel_time_before_activate.from_now < court_book_record.start_time && (!balanced? && !activated?)
+      self.client.can_cancel_time_before_activate.from_now < court_book_record.start_time && (!balanced? && !activated?)
     end
 
     def can_want_sell?
@@ -236,7 +236,7 @@ class Order < ActiveRecord::Base
     end
 
     def can_cancel_all?
-       is_advance_order? && self.client.can_cancel_time_before_activate.from_now < court_book_record.start_time && (not balanced? && !activated?)
+      is_advance_order? && self.client.can_cancel_time_before_activate.from_now < court_book_record.start_time && (not balanced? && !activated?)
     end
 
     def can_update_all?
@@ -465,10 +465,6 @@ class Order < ActiveRecord::Base
       from_date ||= self.alloc_date
       Order.all(:conditions => ["book_records.alloc_date > :from_date && batch_number = :batch_number",
                 { :from_date => from_date, :batch_number => self.batch_number}], :include => :court_book_record)
-      #Order.find_by_sql("SELECT `book_records`.* FROM `book_records` WHERE " + 
-      #                  "`book_records`.`resource_id` = 1 AND `book_records`.`resource_type` = 'Coach'" + 
-      #                  "AND `book_records`.`alloc_date` = '2012-05-20' AND (order_id != 616)" +
-      #                  "AND (start_hour < 8 AND end_hour > 7) LIMIT 1")
     end
 
 

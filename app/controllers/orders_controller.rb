@@ -6,9 +6,7 @@ class OrdersController < ApplicationController
   def index
     @courts        = Court.clientable(current_client.id).enabled
     @date          = params[:date].blank? ? Date.today : Date.parse(params[:date])
-    #@daily_periods = PeriodPrice.all_periods_in_time_span(@date)
-    period_type    = current_client.date_type(@date)
-    @daily_periods = PeriodPrice.in_time_span(current_client).by_period_type(period_type).clientable(current_client.id)
+    @daily_periods = PeriodPrice.clientable(current_client.id).of_datetype(current_client.date_type(@date))
     @predate       = @date.yesterday.strftime("%Y-%m-%d")
     @nextdate      = @date.tomorrow.strftime("%Y-%m-%d")
   end
