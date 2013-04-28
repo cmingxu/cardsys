@@ -51,3 +51,4 @@ end
 gem 'haml-rails'
 gem 'capistrano'
 gem 'rvm-capistrano'
+gem 'rvm-capistrano'

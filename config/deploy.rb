@@ -31,6 +31,7 @@ set :deploy_to, "/home/deploy/code/#{application}"
 # end
 #
 default_run_options[:pty] = true
+set :rvm_ruby_string,  "default" 
 
 
 namespace :deploy do
