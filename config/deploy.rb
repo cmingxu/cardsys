@@ -34,7 +34,7 @@ default_run_options[:pty] = true
 require 'rvm/capistrano'
 set :rvm_ruby_string,  "ruby-1.9.3-p392"
 set :rvm_type, :user
-set :rvm_bin_path, "/home/deploy/.rvm/bin"
+set :rvm_bin_path, "$HOME/bin"
 
 #after 'deploy:setup', 'rvm:install_rvm'
 #after 'deploy:setup', 'rvm:install_ruby'
