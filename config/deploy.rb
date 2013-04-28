@@ -31,7 +31,9 @@ set :deploy_to, "/home/deploy/code/#{application}"
 # end
 #
 default_run_options[:pty] = true
-set :rvm_ruby_string,  "default" 
+require 'rvm/capistrano'
+set :rvm_ruby_string,  ENV['GEM_HOME'].gsub(/.*\//,"")
+set :rvm_type, :user
 
 
 namespace :deploy do
