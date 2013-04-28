@@ -35,6 +35,9 @@ require 'rvm/capistrano'
 set :rvm_ruby_string,  ENV['GEM_HOME'].gsub(/.*\//,"")
 set :rvm_type, :user
 
+after 'deploy:setup', 'rvm:install_rvm'
+after 'deploy:setup', 'rvm:install_ruby'
+
 
 namespace :deploy do
   desc "cause Passenger to initiate a restart"
