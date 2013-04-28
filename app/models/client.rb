@@ -52,13 +52,28 @@ class Client < ActiveRecord::Base
     attr_accessible item.to_sym
   end
 
-  attr_accessible :domain
+  attr_accessible :domain, :users_attributes, :name, :balance, :contact, :phone, :address
 
   after_initialize :init_config
   before_save      :load_config_back
 
   validates_presence_of   :domain, :message => '球场子域名不能为空。'
   validates_uniqueness_of :domain, :message => '该域名已经被占用。'
+  validates :domain, :name, :balance, :contact, :phone, :address , :presence => true
+  accepts_nested_attributes_for :users
+  before_validation(:on => :create) do |client|
+    client.users.first.password_confirmation = client.users.first.password unless client.users.first.nil?
+  end
+
+  after_create do |client|
+    admin = client.users.first
+    if admin
+      dep = Department.create(:client => client, :name => "_管理员")
+      dep.powers = Power.all
+      admin.departments << dep
+      admin.save
+    end
+  end
 
 
   def init_config
@@ -80,7 +95,7 @@ class Client < ActiveRecord::Base
   def self.default_config
     SiteSetting.to_hash
   end
-  
+
   def period_by_date_and_start_hour(date, start_hour)
     date_type = self.date_type(date)
     # pp = PeriodPrice.where(:period_type => date_type)
@@ -97,7 +112,7 @@ class Client < ActiveRecord::Base
     pp = PeriodPrice.where(:period_type => date_type).order("start_time asc")
     pp.select{ |element| element.start_time < end_time && element.end_time > start_time }
   end
-  
+
   def calculate_amount_in_time_spans(date, start_hour, end_hour)
     start_hour,end_hour = start_hour.to_i,end_hour.to_i
     period_prices = all_periods_in_time_span(date,start_hour,end_hour)
@@ -112,6 +127,6 @@ class Client < ActiveRecord::Base
     end
     amount
   end  
-  
+
 
 end

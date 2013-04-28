@@ -11,6 +11,7 @@ class Admin::ClientsController < Admin::BaseController
 
   def new
     @client = Client.new
+    @client.users.build
   end
 
   def edit

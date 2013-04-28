@@ -19,7 +19,7 @@ $(document).ready(function(){
   })
 
   $('a').tooltip({"placement":"right"});
-  $('.alert').fadeOut(6 * 1000);
+  //$('.alert').fadeOut(6 * 1000);
 });
 
 

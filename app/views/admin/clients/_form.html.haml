@@ -1,14 +1,22 @@
 - columns = {:name => "名称", 
              :balance => "账户余额", 
+             :domain => "子域名", 
              :contact => "联系人", 
              :phone => "联系手机", 
              :address => "地址"}
 
 = render :partial => "layouts/errors", :locals => { :target => @client }
-= form_for @client, :url => @client.new_record? ? admin_clients_path : admin_client_path(@client), :html => { :class => "form-horizontal well" } do |f|
+= form_for [:admin, @client], :html => { :class => "form-horizontal well" } do |f|
   - columns.each do |k, v|
     - control_helper(k, v) do
       = f.text_field k
+
+  = f.fields_for :users do |user|
+    - control_helper(:login, "登录名") do
+      = user.text_field :login
+
+    - control_helper(:password, "密码") do
+      = user.text_field :password
 
   .form-actions
     = f.submit "提交", :class => "btn "

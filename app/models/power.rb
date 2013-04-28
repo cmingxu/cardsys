@@ -20,5 +20,9 @@ class Power < ActiveRecord::Base
     false
   end
 
+  def children_without_hide
+    self.children
+  end
+
 
 end
