@@ -1,4 +1,5 @@
 require "rvm/capistrano"
+require "bundler/capistrano"
 
 set :application, "cardsys"
 set :repository,  "git@github.com:cmingxu/cardsys.git"
@@ -31,7 +32,6 @@ set :deploy_to, "/home/deploy/code/#{application}"
 # end
 #
 default_run_options[:pty] = true
-require 'rvm/capistrano'
 set :rvm_ruby_string,  "ruby-1.9.3-p392"
 #set :rvm_type, :user
 set :rvm_bin_path, "/home/deploy/.rvm/bin"
@@ -69,4 +69,6 @@ namespace :db do
 end
 
 after "deploy:update_code", "db:db_config"
+before 'deploy:setup', 'rvm:install_rvm'
+before 'deploy:setup', 'rvm:install_ruby'
 
