@@ -49,6 +49,5 @@ end
 #gem 'debugger'
 
 gem 'haml-rails'
-gem 'capistrano'
-gem 'rvm-capistrano'
-gem 'rvm-capistrano'
+gem 'capistrano', '~> 2.15.3'
+gem 'rvm-capistrano', '~> 1.3.0'
