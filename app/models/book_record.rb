@@ -7,8 +7,8 @@ class BookRecord < ActiveRecord::Base
 
   scope :daily_book_records, lambda {|date| where(:alloc_date => date) }
   scope :court_book_records, lambda {|court_id| where(:court_id => court_id) }
-  scope :playing, where(:status => Status_Active)
-  scope :balanced, where(:status => Status_Settling)
+  #scope :playing, where(:status => Status_Active)
+  #scope :balanced, where(:status => Status_Settling)
 
   def start_date_time
     day = self.alloc_date.to_datetime
