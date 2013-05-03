@@ -16,12 +16,13 @@ class UserSessionsController < ApplicationController
   def create
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
+      redirect_to root_path
       # redirect_back_or_default root_or_admin_root_path 
-      if Rails.env == 'production'
-        redirect_to root_url(:subdomain => current_client.domain)
-      else
-        redirect_to '/'
-      end
+      #if Rails.env == 'production'
+        #redirect_to root_url(:subdomain => current_client.domain)
+      #else
+        #redirect_to '/'
+      #end
     else
       render :action => "new", :layout => false
     end
