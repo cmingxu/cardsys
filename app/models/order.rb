@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'digest/sha1'
 class Order < ActiveRecord::Base
+  default_scope where("deleted_at is NULL")
   include Logable
 
   OPMAP = { "activate"         => "开场",

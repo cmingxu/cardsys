@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class OrderItem < ActiveRecord::Base
+  default_scope where("deleted_at is NULL")
   include Clientable
 
   TYEP_STRING_MAP = {

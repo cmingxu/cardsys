@@ -51,3 +51,4 @@ end
 gem 'haml-rails'
 gem 'capistrano', '~> 2.15.3'
 gem 'rvm-capistrano', '~> 1.3.0'
+gem 'permanent_records'

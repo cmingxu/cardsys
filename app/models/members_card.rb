@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class MembersCard < ActiveRecord::Base
   self.table_name = 'member_cards'
+  default_scope where("deleted_at is NULL")
 
   include Authenticateable
   include HashColumnState
