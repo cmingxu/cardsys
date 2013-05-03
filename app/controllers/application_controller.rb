@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   before_filter :require_user
   before_filter :authentication_required
 
-  before_filter :ensure_client_domain
+  #before_filter :ensure_client_domain
 
   helper_method :current_user_session, :current_user, :current_client
 
