@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
   # redirect to subdomain when client login
   def ensure_client_domain
     subdomain = request.subdomains(0).first
-    if Rails.env == 'production'
+    if false && Rails.env == 'production'
       if current_client and (subdomain.blank? or subdomain != current_client.domain)
         redirect_to root_url(:subdomain => current_client.domain)
       end
