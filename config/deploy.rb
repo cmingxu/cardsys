@@ -58,9 +58,13 @@ namespace :deploy do
   task :update_bundle do
     run "cd #{release_path} && bundle install"
   end
+
+  task :migrate do
+    run "cd #{release_path} && rake db:migrate"
+  end
 end
 
-#after "deploy:update_code", "deploy:update_bundle"
+after "deploy:update_code", "deploy:update_bundle", "deploy:migrate"
 
 namespace :db do
   task :db_config, :except => { :no_release => true }, :role => :app do
