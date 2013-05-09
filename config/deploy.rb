@@ -61,15 +61,15 @@ namespace :deploy do
 
 end
 
-after "deploy:update_code", "deploy:update_bundle", "deploy:migrate"
-
 namespace :db do
   task :db_config, :except => { :no_release => true }, :role => :app do
     run "cp -f #{release_path}/config/database.template #{release_path}/config/database.yml"
   end
 end
 
-after "deploy:update_code", "db:db_config"
+after "deploy:update_code", "db:db_config", "deploy:update_bundle", "deploy:migrate"
+
+
 before 'deploy:setup', 'rvm:install_rvm'
 before 'deploy:setup', 'rvm:install_ruby'
 
