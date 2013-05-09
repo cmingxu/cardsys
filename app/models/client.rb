@@ -59,7 +59,7 @@ class Client < ActiveRecord::Base
 
   validates_presence_of   :domain, :message => '球场子域名不能为空。'
   validates_uniqueness_of :domain, :message => '该域名已经被占用。'
-  validates :domain, :name, :balance, :contact, :phone, :address , :presence => true
+  #validates :domain, :name, :balance, :contact, :phone, :address , :presence => true
   accepts_nested_attributes_for :users
   before_validation(:on => :create) do |client|
     client.users.first.password_confirmation = client.users.first.password unless client.users.first.nil?
