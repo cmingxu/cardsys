@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class MembersCard < ActiveRecord::Base
   self.table_name = 'member_cards'
-  default_scope where("deleted_at is NULL")
+  default_scope where("`member_cards`.deleted_at is NULL")
 
   include Authenticateable
   include HashColumnState
@@ -25,7 +25,7 @@ class MembersCard < ActiveRecord::Base
   validates_presence_of :member_id, :message => "请选择会员"
   validates_presence_of :card_serial_num, :message => "请输入会员卡号"
   validates_uniqueness_of :card_serial_num, :message => "会员卡号冲突", :allow_blank => true
-  validates :card_serial_num, :format =>  {:with => /\w+/}
+  validates :card_serial_num, :format =>  {:with => /^\w+$/, :message => "卡号格式不正确"}
 
   attr_accessor :recharge_times, :recharge_fee, :recharge_expire_date, :recharging
   validates_numericality_of :recharge_times, :greater_than => -1, :message => "充值次数必须为大于零的整数", :if => proc {|obj| obj.recharging }

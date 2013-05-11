@@ -45,10 +45,10 @@ production: &default
   good_source: ["代卖"]
   
   # 夏令时月份
-  summer_months: "3, 4, 5, 6, 7, 8, 9, 10"
+  summer_months: [ 3, 4, 5, 6, 7, 8, 9, 10 ]
 
   # 冬令时月份
-  winter_months: "11, 12, 1, 2"
+  winter_months: [ 11, 12, 1, 2 ]
   
   # 低于此时间不得取消(小时)
   cancel_time_limit: 24

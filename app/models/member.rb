@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Member < ActiveRecord::Base
-  default_scope where("deleted_at is NULL")
+  default_scope where("`members`.deleted_at is NULL")
   include HashColumnState
   include HasPinyinColumn
   include Clientable

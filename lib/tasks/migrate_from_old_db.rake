@@ -5,7 +5,7 @@ desc "migrate from cardsys_dev db"
 # make sure client_id of period-prices set 
 #
 task :migrate_old_db => :environment do
-  SKIP_LIST = ["Department", "UserPower", "Power", "DepartmentPower"]
+  SKIP_LIST = ["Department", "UserPower", "Power", "DepartmentPower", "Log", "PeriodablePeriodPrice"]
 
   class CardPeriodPrice < ActiveRecord::Base
   end
@@ -37,7 +37,7 @@ task :migrate_old_db => :environment do
       break unless klass.table_exists?
       new_record = klass.new
       kvpair = old_record.attributes.slice(*klass.column_names)
-      kvpair[:client_id] = client_id if new_record.attributes.keys.include?(:client_id)
+      kvpair[:client_id] = client_id if new_record.attributes.keys.include?(:client_id) || new_record.attributes.keys.include?("client_id")
       insert_statement(klass.table_name, kvpair)
     end
   end

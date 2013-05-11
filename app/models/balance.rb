@@ -3,7 +3,7 @@
 require 'custom_date_for_report'
 
 class Balance < ActiveRecord::Base
-  default_scope where("deleted_at is NULL")
+  default_scope where("`balances`.deleted_at is NULL")
   include Authenticateable
   include Logable
 
