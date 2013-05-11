@@ -31,7 +31,7 @@ task :migrate_old_db => :environment do
     ap klass.table_name
     next if SKIP_LIST.include?(klass.name)
     next unless klass.table_exists?
-    klass.all.each do |old_record|
+    klass.unscoped.all.each do |old_record|
       klass.establish_connection new_db
       klass.reset_column_information
       break unless klass.table_exists?

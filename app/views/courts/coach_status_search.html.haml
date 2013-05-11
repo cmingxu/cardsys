@@ -18,9 +18,9 @@
     = text_field_tag :search_date, params[:search_date], :class => "select-date"
 
 
-  - control_helper("start_hour", "预订时段", :right) do
-    = select_tag :start_hour, options_for_select((0..23).to_a), :onchange => "check_time();", :style => "width: 110px;"
-    = select_tag :end_hour, options_for_select((0..23).to_a, 23), :onchange => "check_time();", :style => "width: 110px;"
+  - control_helper("start_time", "预订时段", :right) do
+    = select_tag :start_time, options_for_select((0..23).to_a), :onchange => "check_time();", :style => "width: 110px;"
+    = select_tag :end_time, options_for_select((0..23).to_a, 23), :onchange => "check_time();", :style => "width: 110px;"
 
 
   .form-actions
@@ -47,8 +47,8 @@
         %td= coach_book_record.start_time.to_chinese_mdh
         %td= coach_book_record.order.court_book_record.court.try(:name)
         %td
-          = coach_book_record.start_hour
-          点 - #{coach_book_record.end_hour}点
+          = coach_book_record.start_time
+          点 - #{coach_book_record.end_time}点
 
 .non-printable
   = render :partial => "layouts/page_nav", :locals => {:objs => @coach_book_records}

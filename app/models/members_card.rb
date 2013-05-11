@@ -25,6 +25,7 @@ class MembersCard < ActiveRecord::Base
   validates_presence_of :member_id, :message => "请选择会员"
   validates_presence_of :card_serial_num, :message => "请输入会员卡号"
   validates_uniqueness_of :card_serial_num, :message => "会员卡号冲突", :allow_blank => true
+  validates :card_serial_num, :format =>  {:with => /\w+/}
 
   attr_accessor :recharge_times, :recharge_fee, :recharge_expire_date, :recharging
   validates_numericality_of :recharge_times, :greater_than => -1, :message => "充值次数必须为大于零的整数", :if => proc {|obj| obj.recharging }

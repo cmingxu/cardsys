@@ -12,10 +12,10 @@ production: &default
   can_book_time_before_book: <%= 7.day %>
   
   # 网站的中文title
-  site_name: "国家网球中心"
+  site_name: "球场预订网"
   
   # 网站的url
-  site_url: "http://www.broadwell.cn"
+  site_url: "http://www.qcydw.com"
   
   # 是否支持条码扫描
   barcode_scanner_enabled: true
@@ -45,10 +45,10 @@ production: &default
   good_source: ["代卖"]
   
   # 夏令时月份
-  summer_months: [3,4,5,6,7,8,9,10]
+  summer_months: "3, 4, 5, 6, 7, 8, 9, 10"
 
   # 冬令时月份
-  winter_months: [11, 12, 1, 2]
+  winter_months: "11, 12, 1, 2"
   
   # 低于此时间不得取消(小时)
   cancel_time_limit: 24

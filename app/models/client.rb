@@ -34,7 +34,7 @@ module DateTypeDeteminer
   end
 
   def is_summer?(date)
-    self.summer_months.include?(date.month) 
+    self.summer_months.split(",").include?(date.month) 
   end
 end
 

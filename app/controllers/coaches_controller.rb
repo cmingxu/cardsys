@@ -72,4 +72,5 @@ class CoachesController < ApplicationController
     @coach.state
     redirect_to(coaches_url) 
   end
+
 end

@@ -21,4 +21,5 @@ class CoachBookRecord < BookRecord
   def price
     coach.fee
   end
+
 end

@@ -54,6 +54,10 @@ class CourtsController < ApplicationController
     redirect_to courts_url
   end
 
+  def coach_status_search
+    @coach_book_records = CoachBookRecord.all
+  end
+
   def court_status_search
     @court_book_records = CourtBookRecord.all
     @court_book_records = @court_book_records.select{ |cbr| cbr.court.try(:name) == params[:name].strip } if params[:name].present?
