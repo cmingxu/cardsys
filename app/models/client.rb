@@ -15,7 +15,8 @@ module DateTypeDeteminer
   # 看来这里得缓存到redis里面了
   def date_type(date = Date.today)
     if is_workday?(date)
-      is_summer?(date) ?  "夏令时" : "冬令时"
+      #is_summer?(date) ?  "夏令时" : "冬令时"
+      "平日"
     else
       "节假日"
     end
