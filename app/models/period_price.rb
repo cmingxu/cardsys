@@ -22,7 +22,7 @@ class PeriodPrice < ActiveRecord::Base
   end
 
   def overlaps?(other_time_range)
-    self != other_time_range && (start_time - other_time_range.end_time) * (other_time_range.start_time - end_time) >= 0
+    self != other_time_range && (start_time - other_time_range.end_time) * (other_time_range.start_time - end_time) > 0
   end
 
 end
