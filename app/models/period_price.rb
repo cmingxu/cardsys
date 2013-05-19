@@ -8,7 +8,7 @@ class PeriodPrice < ActiveRecord::Base
   validates :name,  :presence => {:message => "时段名称不能为空！"}
   validates :price, :numericality => {:message => "时段价格必须为数字！"}
   validate :validate_start_time_end_time
-  validate :no_overlap_allowed
+  #validate :no_overlap_allowed
   validates_presence_of :start_time, :end_time, :message => "时段开始时间和结束时间不能空"
 
 
