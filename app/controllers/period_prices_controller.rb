@@ -21,11 +21,6 @@ class PeriodPricesController < ApplicationController
     @period_price           = PeriodPrice.new(params[:period_price])
     @period_price.client_id = current_client.id if current_client
     if @period_price.save
-      Court.all.each { |court|
-        CourtPeriodPrice.create(:period_price_id => @period_price.id,
-                                :court_price =>  @period_price.price,
-                                :court_id => court.id)
-      }
       @period_prices = PeriodPrice.clientable(current_client.id)
       redirect_to :action => 'index', :notice => '时段价格创建成功！'
     else
