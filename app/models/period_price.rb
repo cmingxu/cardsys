@@ -25,5 +25,13 @@ class PeriodPrice < ActiveRecord::Base
     self != other_time_range && (start_time - other_time_range.end_time) * (other_time_range.start_time - end_time) > 0
   end
 
+  def end_hour
+    end_time / 3600
+  end
+
+  def start_hour
+    start_time / 3600
+  end
+
 end
 
