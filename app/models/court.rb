@@ -72,13 +72,9 @@ class Court < ActiveRecord::Base
     perod_prices.blank? ? 0 : perod_prices.first.start_time
   end
 
-  def period_prices_by_date(date)
-    period_prices.select{|pp| pp.is_fit_for?(date)}.sort{|a, b| a.start_time <=> b.start_time}
-  end
-
   def open_hours_range(date = Date.today)
-    pps = period_prices_by_date(date)
-    pps.first.start_time..pps.last.end_time
+    pps = self.period_prices.of_datetype(client.date_type(date))
+    pps.sort_by(&:start_hour).first.start_hour..pps.sort_by(&:end_hour).last.end_hour
   end
 
   def end_hour(date=Date.today)

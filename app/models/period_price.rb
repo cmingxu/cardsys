@@ -5,7 +5,7 @@ class PeriodPrice < ActiveRecord::Base
   has_many :periodable_period_prices
   scope :of_datetype, lambda {|date_type| where(:period_type => date_type)}
 
-  validates :name,  :presence => {:message => "时段名称不能为空！"}
+  validates :name,  :presence => {:message => "时段名称不能为空！"}, :uniqueness => { :message => "名称不能重复" }
   validates :price, :numericality => {:message => "时段价格必须为数字！"}
   validate :validate_start_time_end_time
   #validate :no_overlap_allowed

@@ -1,10 +1,3 @@
-=# variables
-- today_date_type = current_client.date_type(@date)
-- start_hour = (@daily_periods.first.try(:start_time) || 0)
-- end_hour   = (@daily_periods.last.try(:end_time) || 1)
-- period_prices = PeriodPrice.where("period_type=? AND client_id=?", today_date_type, current_client.id)
-
-
 %span{:style=> "height: 25px; font-size:20px; line-height: 25px;"}= "#{@date.to_chinese_ymd} 的场地预定"
 %span.pull-right
   =link_to raw("<i class='icon-arrow-left'> </i>  ") ,  orders_path(:date => @predate) , :class => "btn btn-mini", :title => "前一天"
@@ -34,13 +27,12 @@
                 %td
                   = court.name
 
-              - (((@daily_periods.first.try(:start_time) || 0) / 3600)..(((@daily_periods.last.try(:end_time) || 1) - 1)/3600)).each do |hour_start|
+              - (lower_bound(@period_prices)..higher_bound(@period_prices)).each do |hour_start|
                 %tr.period
                   %td.first_td
                     = "#{hour_start}:00-#{hour_start.next}:00"
                   - slice.each do |court|
-                    =# court_status_in_period(@date, hour_start, court)
-                    = court_status_in_period_with_period_prices(@date, hour_start, court, period_prices)
+                    = court_status_in_period_with_period_prices(@date, hour_start, court, @period_prices)
             %div{:style => "clear:both;"}
   .h10
   .color

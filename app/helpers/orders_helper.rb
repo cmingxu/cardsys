@@ -181,4 +181,12 @@ module OrdersHelper
     end
   end
 
+  def lower_bound(pp)
+    pp.sort_by(&:start_hour).first.start_hour
+  end
+
+  def higher_bound(pp)
+    pp.sort_by(&:end_hour).last.end_hour
+  end
+
 end
