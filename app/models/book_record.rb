@@ -1,14 +1,13 @@
 # -*- encoding : utf-8 -*-
 class BookRecord < ActiveRecord::Base
 
+  attr_accessor :start_hour, :end_hour
   belongs_to  :order
   belongs_to  :resource, :polymorphic => true
   has_many :order_items, :as => :item, :dependent => :destroy
 
   scope :daily_book_records, lambda {|date| where(:alloc_date => date) }
   scope :court_book_records, lambda {|court_id| where(:court_id => court_id) }
-  #scope :playing, where(:status => Status_Active)
-  #scope :balanced, where(:status => Status_Settling)
 
   def start_date_time
     day = self.alloc_date.to_datetime
@@ -43,6 +42,14 @@ class BookRecord < ActiveRecord::Base
                                                                                                 {:start_time => start_hour,:end_time => end_hour}])
     conflict_record = conflict_record.where("id<>#{self.id}") unless new_record?
     conflict_record.first
+  end
+
+  def start_hour
+    self.start_time.hour
+  end
+
+  def end_hour
+    self.end_time.hour
   end
 
   private

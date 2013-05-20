@@ -13,7 +13,9 @@ class CourtBookRecord < BookRecord
   end
 
   def period_prices
-    court.period_prices_in_time_span(alloc_date, start_time, end_time)
+    ap court.period_prices.of_datetype(court.client.date_type(alloc_date)).within_time_span(start_time, end_time).to_sql
+    ap court.period_prices.of_datetype(court.client.date_type(alloc_date)).within_time_span(start_time, end_time)
+    court.period_prices.of_datetype(court.client.date_type(alloc_date)).within_time_span(start_time, end_time)
   end
 
 end

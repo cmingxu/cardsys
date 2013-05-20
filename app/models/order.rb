@@ -23,7 +23,6 @@ class Order < ActiveRecord::Base
   has_one     :non_member
   belongs_to  :advanced_order
 
-
   validates  :members_card_id, :presence => { :message => "请选择会员卡" }, :if => proc { |order| order.is_member? }
   validates  :member_id, :presence => { :message => "请选择会员" }, :if => proc { |order| order.is_member? }
   validate   :coach_valid
@@ -148,9 +147,9 @@ class Order < ActiveRecord::Base
       self.new_record? && \
       CourtBookRecord.where(:alloc_date => self.court_book_record.alloc_date, 
                             :resource_id => self.court_book_record.resource_id)
-    .where(["start_hour < :end_time AND end_hour > :start_time",
-           {:start_time => self.court_book_record.start_hour,
-             :end_time => self.court_book_record.end_hour}]).present?
+    .where(["start_time < :end_time AND end_time > :start_time",
+           {:start_time => self.court_book_record.start_time,
+             :end_time => self.court_book_record.end_time}]).present?
   end
 
   def coach_order_items
@@ -221,7 +220,7 @@ class Order < ActiveRecord::Base
     end
 
     def can_cancel?
-      self.client.can_cancel_time_before_activate.from_now < court_book_record.start_time && (!balanced? && !activated?)
+      self.client.can_cancel_time_before_activate.to_i.from_now < court_book_record.start_time && (!balanced? && !activated?)
     end
 
     def can_want_sell?

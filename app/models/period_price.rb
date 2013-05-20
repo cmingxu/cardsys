@@ -4,6 +4,11 @@ class PeriodPrice < ActiveRecord::Base
 
   has_many :periodable_period_prices
   scope :of_datetype, lambda {|date_type| where(:period_type => date_type)}
+  scope :within_time_span, lambda { |start_time, end_time| where("start_time BETWEEN :start_time AND :end_time OR :start_time BETWEEN start_time AND end_time",
+                                                                 { :start_time => start_time.sec_offset,:end_time =>  end_time.sec_offset}) }
+  scope :within_hour_span, lambda { |start_hour, end_hour| where("start_time BETWEEN :start_time AND :end_time OR :start_time BETWEEN start_time AND end_time",
+                                                                 { :start_time => start_hour * 3600,:end_time =>  end_hour * 3600}) }
+
 
   validates :name,  :presence => {:message => "时段名称不能为空！"}, :uniqueness => { :message => "名称不能重复" }
   validates :price, :numericality => {:message => "时段价格必须为数字！"}

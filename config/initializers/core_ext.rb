@@ -6,4 +6,11 @@ class Date
   def weekend?
     !weekday?
   end
+
+end
+
+class Time
+  def sec_offset
+    Integer(self - self.beginning_of_day)
+  end
 end

@@ -83,9 +83,8 @@ class Court < ActiveRecord::Base
   end
 
   def period_prices_in_time_span(date, start_hour, end_hour)
-    self.period_prices.select { |element|
-      element.is_fit_for?(date) and ((element.start_time..element.end_time).to_a & (start_hour..end_hour).to_a).present? 
-    }
+    self.period_prices.of_datetype(self.client.date_type(date)).within_hour_span(start_hour, end_hour)
   end
+
 
 end
