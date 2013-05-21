@@ -5,7 +5,7 @@ class CourtBookRecord < BookRecord
   end
 
   def price(members_card = nil)
-    members_card.present? ? members_card.card.total_money_in_time_span(self, alloc_date, start_time, end_time) : court.calculate_amount_in_time_span(alloc_date, start_time, end_time)
+    members_card.present? ? members_card.card.total_money_in_time_span(self) : court.calculate_amount_in_time_span(alloc_date, start_time, end_time)
   end
 
   def description
@@ -13,8 +13,6 @@ class CourtBookRecord < BookRecord
   end
 
   def period_prices
-    ap court.period_prices.of_datetype(court.client.date_type(alloc_date)).within_time_span(start_time, end_time).to_sql
-    ap court.period_prices.of_datetype(court.client.date_type(alloc_date)).within_time_span(start_time, end_time)
     court.period_prices.of_datetype(court.client.date_type(alloc_date)).within_time_span(start_time, end_time)
   end
 

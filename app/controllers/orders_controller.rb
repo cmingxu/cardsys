@@ -17,8 +17,8 @@ class OrdersController < ApplicationController
     @order.is_member = true
     @order.court_book_record = CourtBookRecord.new(params[:court_book_record])
     @order.court_book_record.resource_type = 'Court'
-    @order.court_book_record.start_time = Time.now
-    @order.court_book_record.end_time = Time.now
+    @order.court_book_record.start_time = Date.parse(params[:court_book_record][:alloc_date]) + params[:court_book_record][:start_time].to_i.hours
+    @order.court_book_record.end_time = @order.court_book_record.start_time + 1.hour
     @order.member = Member.new
     @order.order_date = @order.court_book_record.alloc_date
     @order.end_date = @order.order_date 

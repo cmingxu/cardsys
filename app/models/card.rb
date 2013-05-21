@@ -37,70 +37,20 @@ class Card < ActiveRecord::Base
     end
   end
 
-  def price_with_period_price(pp)
-    if period_prices_include?(pp)
-      self.periodable_period_prices.find{|ppp| ppp.period_price_id == pp.id }.price
-    else
-      pp.price
-    end
-  end
-
   def card_balance_desc
     self.is_counter_card? ? "#{self.counts||0}次" : "#{self.balance||0}元"
   end
 
-  def period_prices_include?(period_price)
-    self.period_prices.exists?(:id => period_price.id)
-  end
-
-  def calculate_amount_in_time_span(date,start_hour,end_hour)
-    self.client.calculate_amount_in_time_spans(date, start_hour, end_hour) do |period_price|
-      card_period_price = self.card_period_prices.first(:conditions => "period_price_id=#{period_price.id}")
-      [!card_period_price.nil? ,card_period_price.card_price]
-    end
-  end
-
-  def avaliable_in_time_span?(date, start_hour, end_hour)
-    (period_prices & self.client.all_periods_in_time_span(date, start_hour, end_hour)).present?
-  end
-
-  def total_money_in_time_span(court_book_record, date, start_hour, end_hour)
-    start_hour, end_hour = start_hour.to_i, end_hour.to_i
-    period_prices = court_book_record.period_prices & self.client.all_periods_in_time_span(date, start_hour, end_hour)
-    period_prices.sort!{|fst,scd| scd.start_time <=> fst.start_time }
+  def total_money_in_time_span(court_book_record)
     total_price = 0
-    period_prices.each do |period_price|
-      real_start_hour = [start_hour, period_price.start_time].max
-      real_end_hour  =  [end_hour, period_price.end_time].min
-      price = self.card_period_prices.first(:conditions => {:period_price_id => period_price.id}).try(:card_price) || 0
+    court_book_record.period_prices.each do |period_price|
+      real_start_hour = [court_book_record.start_hour, period_price.start_time / 3600].max
+      real_end_hour  =  [court_book_record.end_hour, period_price.end_time / 3600].min
+      price = self.periodable_period_prices.first(:conditions => {:period_price_id => period_price.id}).try(:price) || 0
       total_price += (real_end_hour - real_start_hour) * price
       leave_end_hour = real_end_hour
     end
     total_price    
-  end
-
-  def all_periods_in_time_span(date = Date.today, start_time=nil, end_time=nil)
-    card_period_prices.all.map(&:period_price).find_all{|period_price|
-      period_price.is_in_time_span(date, start_time, end_time)
-    }.sort{|fst,scd| fst.start_time <=> scd.start_time }
-  end
-
-  def unuseable_time_spans(date,start_hour,end_hour)
-    period_prices = all_periods_in_time_span(date,start_hour,end_hour)
-    time_spans = period_prices.map{|period_price|
-      [period_price.start_time,period_price.end_time]
-    }
-    time_span_items = []
-    time_spans.each {|time_span|
-      time_span.first.upto(time_span.last-1){|i|time_span_items << [i,i+1]  }
-    }
-    order_time_span_items = []
-    start_hour.upto(end_hour-1).each {|i| order_time_span_items << [i,i+1] }
-    order_time_span_items.delete_if { |start_h,end_h| time_span_items.find{|s,n|start_h == s && end_hour = n}  }
-  end
-
-  def is_useable_in_time_span?(date,start_hour,end_hour)
-    unuseable_time_spans(date,start_hour,end_hour).blank?
   end
 
   def should_advanced_order?
