@@ -2,7 +2,7 @@
 =render :partial => "layouts/errors", :locals => { :target => @category }
 = form_for(@category, :html => { :class => "form-horizontal well" }) do |f|
   - control_helper(:parent_id, "分类上级") do
-    = f.select :parent_id,indent_category_options(params[:p]) ,:include_blank => true
+    = f.select :parent_id, indent_category_options(params[:p], false), :include_blank => true
 
   - control_helper(:name, "名称") do
     = f.text_field :name

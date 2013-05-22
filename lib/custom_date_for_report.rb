@@ -5,11 +5,11 @@ class CustomDateForReport
   end
 
   def beginning_of_month
-    ((@date - 1.month).beginning_of_month + @accounting_begin_day.days)
+    ((@date).beginning_of_month + @accounting_begin_day.days)
   end
 
   def end_of_month
-    (@date.beginning_of_month + (@accounting_begin_day - 1).days)
+    (@date + 1.month).beginning_of_month + (@accounting_begin_day - 1).days
   end
 
   def each_day_of_this_financial_month(&block)

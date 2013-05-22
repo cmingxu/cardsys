@@ -10,7 +10,7 @@
 
 
   - control_helper("good_type", "商品类型") do
-    = f.select :good_type, option_groups_from_collection_for_select(Category.roots,:children,:name,:id,:name,@good.good_type)
+    = f.select :good_type, option_groups_from_collection_for_select(Category.roots, :children, :name, :id, :name, @good.good_type)
 
 
   - control_helper("count_back_stock", "入库数量") do
@@ -25,7 +25,7 @@
 
 
   - control_helper("good_source", "商品来源") do
-    = f.select :good_source, Setting.good_source_options(@good.good_source)
+    = f.select :good_source, current_client.to_options(:good_source, @good.good_source)
 
 
   .form-actions

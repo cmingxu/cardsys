@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   end
 
   def can_book_when_time_due?
-    self.menus.include?("过期预订")
+    self.menus.include?("过期预定")
   end
 
   def can?(action)
