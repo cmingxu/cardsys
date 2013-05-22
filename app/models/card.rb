@@ -71,6 +71,10 @@ class Card < ActiveRecord::Base
     CARD_TYPE[card_type] 
   end
 
+  def price_with_period_price(pp)
+    self.periodable_period_prices.where(:period_price_id => pp.id).first.try(:price) || pp.price
+  end
+
   def can_destroy?
     true
   end
