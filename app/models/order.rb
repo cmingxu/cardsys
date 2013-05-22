@@ -25,7 +25,7 @@ class Order < ActiveRecord::Base
 
   validates  :members_card_id, :presence => { :message => "请选择会员卡" }, :if => proc { |order| order.is_member? }
   validates  :member_id, :presence => { :message => "请选择会员" }, :if => proc { |order| order.is_member? }
-  validate   :coach_valid
+  #validate   :coach_valid
   validate   :court_valid
   validate   :card_avaliable_in_time_span
   validate   :end_date_later_than_today
@@ -202,11 +202,8 @@ class Order < ActiveRecord::Base
 
     def coach_ids=(ids)
       @coaches = Coach.find(ids.split(",").uniq)
-      self.coach_book_records = @coaches.collect do |c|
-        cbr = CoachBookRecord.new
-        cbr.resource_type = "Coach"
-        cbr.resource_id =  c.id
-        cbr
+      @coaches.each do |c|
+        self.coach_book_records.build :resource => c
       end
     end
 

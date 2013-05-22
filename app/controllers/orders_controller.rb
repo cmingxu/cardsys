@@ -7,7 +7,6 @@ class OrdersController < ApplicationController
     @courts        = Court.clientable(current_client.id).enabled
     @date          = params[:date].blank? ? Date.today : Date.parse(params[:date])
     @period_prices = PeriodPrice.clientable(current_client.id).of_datetype(current_client.date_type(@date))
-    ap @period_prices
     @predate       = @date.yesterday.strftime("%Y-%m-%d")
     @nextdate      = @date.tomorrow.strftime("%Y-%m-%d")
   end
@@ -96,7 +95,7 @@ class OrdersController < ApplicationController
       render :layout => "small_main"
     else
       @order.build_non_member(:is_member => @order.is_member, :earnest => 0)
-      render :action => "new", :layout => "small_main"
+      #render :action => "new", :layout => "small_main"
     end
   end
 
