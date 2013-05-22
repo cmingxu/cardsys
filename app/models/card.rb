@@ -43,10 +43,12 @@ class Card < ActiveRecord::Base
 
   def total_money_in_time_span(court_book_record)
     total_price = 0
+    ap court_book_record.period_prices
     court_book_record.period_prices.each do |period_price|
       real_start_hour = [court_book_record.start_hour, period_price.start_time / 3600].max
       real_end_hour  =  [court_book_record.end_hour, period_price.end_time / 3600].min
-      price = self.periodable_period_prices.first(:conditions => {:period_price_id => period_price.id}).try(:price) || 0
+      price = self.periodable_period_prices.first(:conditions => {:period_price_id => period_price.id}).try(:price)
+      price = period_price.price if price == 0
       total_price += (real_end_hour - real_start_hour) * price
       leave_end_hour = real_end_hour
     end
