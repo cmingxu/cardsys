@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_date
   before_filter :require_user
   before_filter :authentication_required
+  before_filter :store_current_client_in_thread
 
   #before_filter :ensure_client_domain
 
@@ -145,5 +146,9 @@ class ApplicationController < ActionController::Base
 
   def after_sign_out_path_for(resource)
     "/signin"
+  end
+
+  def store_current_client_in_thread
+    Thread.current[:current_client] = current_client if current_client
   end
 end

@@ -141,8 +141,8 @@ class Balance < ActiveRecord::Base
     where(["created_at > ? and created_at < ? and (balance_way in (?))", date.beginning_of_day, date.end_of_day, ways])
   end
 
-  def self.balances_on_month_and_ways(date,ways)
-    date = CustomDateForReport.new( date, Setting.financial_begin_day_of_every_month)
+  def self.balances_on_month_and_ways(date, ways)
+    date = CustomDateForReport.new( date, Thread.current[:current_client].financial_begin_day_of_every_month.to_i)
     where(["created_at > ? and created_at < ? and balance_way in (?)", date.beginning_of_month, date.end_of_month, ways])
   end
 

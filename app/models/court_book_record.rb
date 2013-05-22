@@ -9,7 +9,7 @@ class CourtBookRecord < BookRecord
   end
 
   def description
-    court.name + "(" + alloc_date.strftime("%Y-%m-%d  ") + start_time.to_s + ":00 - " + end_time.to_s + ":00" + ")"
+    court.name + "(" + alloc_date.strftime("%Y-%m-%d  ") + start_time.strftime("%H") + ":00 - " + end_time.strftime("%H") + ":00" + ")"
   end
 
   def period_prices

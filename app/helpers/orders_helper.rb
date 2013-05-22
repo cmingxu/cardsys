@@ -97,8 +97,8 @@ module OrdersHelper
     htmls = []
     htmls << order_action_button("申请代卖", "", "want_sell") if order.can_want_sell?
     htmls << order_action_button("取消代卖", "", "cancel_want_sell") if order.can_cancel_want_sell?
-    if  current_user.menus.include?("取消场地")
-      htmls << order_action_button("取消预订", "", "cancel") 
+    if  current_user.menus.include?("删除场地预订")
+      htmls << order_action_button("取消预订", "", "cancel") if !order.balanced? and !order.activated?
       htmls << order_action_button("连续取消", "", "cancel_all") if order.is_advance_order?
     else
       htmls << order_action_button("取消预订", "", "cancel") if order.can_cancel?

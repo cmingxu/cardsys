@@ -158,7 +158,7 @@ class Order < ActiveRecord::Base
 
 
   state_machine  :initial => :booked do
-    after_transition :on => :cancel , :do => :destroy
+    after_transition :on => :cancel , :do => proc {|o| o.destroy(:force) }
     after_transition :on => :all_cancel , :do => :advance_destroy
 
     event :activate do
@@ -316,7 +316,7 @@ class Order < ActiveRecord::Base
           raise Exception
           # 新订单时间覆盖当前时间段
         elsif new_order.hour_range.overlap_window_size(self.hour_range) == self.hours
-          self.destroy
+          self.destroy(:force)
           new_order.save!
           # 小于当前时间段
         elsif self.hour_range.include? new_order.hour_range

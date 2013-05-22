@@ -14,7 +14,7 @@
     %table{:cellpadding=>"1", :cellspacing=>"2", :border=>"1", :style => "width: 100%;"}
       %caption/
       %h2
-        = Setting.site_name
+        = current_client.site_name
         消费单
       - if @balance.order.court_book_record
         %tr.goods.goods_title

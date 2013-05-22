@@ -1,7 +1,7 @@
 class CustomDateForReport
   def initialize(date, accounting_begin_day = 1)
     @date = date
-    @accounting_begin_day = accounting_begin_day
+    @accounting_begin_day = accounting_begin_day.to_i
   end
 
   def beginning_of_month
