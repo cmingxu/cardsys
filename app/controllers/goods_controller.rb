@@ -52,6 +52,7 @@ class GoodsController < ApplicationController
     @good = Good.new(params[:good])
     @good.count_total_now = @good.count_back_stock
     @good.count_front_stock = 0
+    @good.client_id = current_client.id
     if @good.save
       redirect_to(goods_path, :notice => '商品信息添加成功！') 
     else

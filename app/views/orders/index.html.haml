@@ -27,7 +27,7 @@
                 %td
                   = court.name
 
-              - (lower_bound(@period_prices)..higher_bound(@period_prices)).each do |hour_start|
+              - (lower_bound(@period_prices)..(higher_bound(@period_prices) -1 )).each do |hour_start|
                 %tr.period
                   %td.first_td
                     = "#{hour_start}:00-#{hour_start.next}:00"
