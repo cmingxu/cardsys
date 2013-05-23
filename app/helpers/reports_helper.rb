@@ -30,7 +30,7 @@ module ReportsHelper
     # first tr
     table <<("<tr class='head'>")
     table <<("<td colspan=3>日期 #{ select_year(date, {:start_year => 2010,:end_year => 2016},:onchange => "recalculate();")} 年 " + 
-             "#{select_month(date,:use_month_numbers => true,:onchange => "recalculate();")}月　#{select_day(date,{},:onchange => "recalculate();")} 日</td>")
+             "#{select_month(date, :use_month_numbers => true, :onchange => "recalculate();")}月　#{select_day(date,{},:onchange => "recalculate();")} 日</td>")
     table << "<td>支付方式：　</td>"
     table << "<td colspan=#{table_width - 5} style='width:450px;'>#{pay_way_checkboxes(pay_ways)}</td>"
     table << "<td>合计：　#{Balance.total_balance_on_date_any_ways(date, pay_ways)}  </td>"
@@ -82,7 +82,7 @@ module ReportsHelper
 
 
   def choose_month(date)
-    select_tag("",options_for_select((1..Date.today.month).to_a,date.month),:onchange=> "recalculate();",:id => "date_month")
+    select_tag("",options_for_select((1..12).to_a,date.month),:onchange=> "recalculate();",:id => "date_month")
   end
 
 
