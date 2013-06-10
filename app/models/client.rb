@@ -42,6 +42,8 @@ end
 
 class Client < ActiveRecord::Base
   has_many :users, :dependent => :destroy
+  has_many :members_cards
+  has_many :members
 
   serialize :config, Hash
 

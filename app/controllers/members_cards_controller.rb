@@ -53,7 +53,7 @@ class MembersCardsController < ApplicationController
   end
 
   def create
-    @members_card = MembersCard.new(params[:members_card])
+    @members_card = current_client.members_cards.build(params[:members_card])
     if @members_card.save
       log_action(@members_card, "kaika", @members_card.user || current_user)
       flash[:notice] = "会员卡创建成功"

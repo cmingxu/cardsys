@@ -93,6 +93,11 @@
   - control_helper('winter_months', '冬令时月份') do
     = raw setting_tagable(current_client, "winter_months")
 
+  - control_helper('omit_precision', '是否四舍五入', :left) do
+    = f.select "omit_precision", setting_boolean_options
+    %span(class='help-block') 是否支持四舍五入
+
+
             
   %div{:class => "form-actions"}
     = f.submit "保存", :class => "btn btn-primary"

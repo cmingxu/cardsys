@@ -24,12 +24,12 @@ class CoachBookRecord < BookRecord
     coach.fee
   end
 
-  def start_time
-    alloc_date + start_hour.hours
-  end
+  #def start_time
+    #alloc_date + start_hour.hours
+  #end
 
-  def end_time
-    alloc_date + end_hour.hours
-  end
+  #def end_time
+    #alloc_date + end_hour.hours
+  #end
 
 end

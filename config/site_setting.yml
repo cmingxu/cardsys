@@ -65,6 +65,9 @@ production: &default
   # 一天的结束时间
   end_hour: 24
 
+  # 四舍五入
+  omit_precision: true
+
 test:
   <<: *default
 
