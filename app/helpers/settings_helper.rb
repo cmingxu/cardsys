@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 module SettingsHelper
-  def setting_boolean_options
-    options_for_select [["是", true], ["否", false]]
+  def setting_boolean_options(default=true)
+    options_for_select [["是", true], ["否", false]], default
   end
 
   def setting_month_begining_options

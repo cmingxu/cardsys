@@ -35,6 +35,12 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :non_member, :reject_if => proc { |non_member| non_member[:is_member] == "1" || non_member[:is_member] == "true" }
   attr_accessor :coach_ids, :split_from_other, :possible_batch_order
   after_save :save_order_items_for_court_and_coaches
+  before_save do |o|
+    o.coach_book_records.each do |cbr|
+      cbr.start_time = o.court_book_record.start_time
+      cbr.end_time   = o.court_book_record.end_time
+    end
+  end
 
   before_create :assign_batch_number
   after_create :batch_order

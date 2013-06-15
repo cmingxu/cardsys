@@ -94,7 +94,7 @@
     = raw setting_tagable(current_client, "winter_months")
 
   - control_helper('omit_precision', '是否四舍五入', :left) do
-    = f.select "omit_precision", setting_boolean_options
+    = f.select "omit_precision", setting_boolean_options(f.object.omit_precision)
     %span(class='help-block') 是否支持四舍五入
 
 

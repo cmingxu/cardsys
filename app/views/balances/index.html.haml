@@ -132,7 +132,7 @@
       }
       else{
         var closest_price_after_discount_node = price_node.parent().parent().find(".price_after_discount");
-        closest_price_after_discount_node.val(price * total_cost * 0.1);
+        closest_price_after_discount_node.val((price * total_cost * 0.1).toFixed(0));
       }
     }
 
