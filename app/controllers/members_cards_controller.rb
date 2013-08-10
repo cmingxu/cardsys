@@ -4,7 +4,6 @@ class MembersCardsController < ApplicationController
   autocomplete :members, :name
 
   def index
-    # @members_cards = MembersCard.paginate default_paginate_options
     @members_cards = MembersCard.paginate_by_client(current_client.id, default_paginate_options)
   end
 

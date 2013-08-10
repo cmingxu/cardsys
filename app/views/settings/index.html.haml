@@ -60,11 +60,11 @@
     %span(class='help-block') 客户卡内金额小于该数值时，向客户报警
 
   - control_helper('barcode_scanner_enabled', '是否支持条码扫描', :left) do
-    = f.select "barcode_scanner_enabled", setting_boolean_options
+    = f.select "barcode_scanner_enabled", setting_boolean_options(f.object.barcode_scanner_enabled)
     %span(class='help-block') 是否支持条形码扫描
 
   - control_helper('financial_begin_day_of_every_month', '每月开始日期', :right) do
-    = f.select "financial_begin_day_of_every_month", setting_month_begining_options
+    = f.select "financial_begin_day_of_every_month", setting_month_begining_options(f.object.financial_begin_day_of_every_month)
     %span(class='help-block') 设置每个月以哪天开始
 
   - control_helper('card_type', '消费卡类型') do

@@ -4,8 +4,8 @@ module SettingsHelper
     options_for_select [["是", true], ["否", false]], default
   end
 
-  def setting_month_begining_options
-    options_for_select (1..31).collect{|day| ["#{day}号", day] }
+  def setting_month_begining_options(default)
+    options_for_select (1..31).collect{|day| ["#{day}号", day] }, default
   end
 
   def setting_tagable(client, field)

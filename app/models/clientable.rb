@@ -1,12 +1,16 @@
 # -*- encoding : utf-8 -*-
 
 module Clientable
-  extend ActiveSupport::Concern
 
-  included do
-    belongs_to :client
-    scope :clientable, lambda {|client_id| where(:client_id => client_id) }
-    validate :ensure_client_exist
+  def self.included base
+    base.class_eval do
+      belongs_to :client
+      scope :clientable, lambda {|client_id| where(:client_id => client_id) }
+      validate :ensure_client_exist
+      include InstanceMethods
+    end
+
+    base.extend ClassMethods
   end
 
   module ClassMethods

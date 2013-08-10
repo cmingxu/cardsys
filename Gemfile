@@ -32,6 +32,8 @@ group :test, :development do
   gem 'zeus'
 end
 
+gem 'quiet_assets', :group => :development
+
 gem 'twitter-bootstrap-rails', '2.0.3'
 
 gem 'jquery-ui-rails'

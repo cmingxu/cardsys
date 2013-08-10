@@ -7,7 +7,7 @@ end
 
 class Time
   def to_chinese_mdh
-    self.strftime("%m月%d日%H时")
+    self.strftime("%m月%d日%H点")
   end
 
 

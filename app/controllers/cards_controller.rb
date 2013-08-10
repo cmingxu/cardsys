@@ -33,9 +33,8 @@ class CardsController < ApplicationController
     @card.period_prices = PeriodPrice.find params[:time_available].keys
     @card.periodable_period_prices.each do |element|
       element.price = params[:time_discount][element.period_price_id.to_s]
-      puts element.changed?
     end
-    if @card.save
+    if @card.update_attributes params[:card]
       redirect_to(cards_path, :notice => '卡信息修改成功！') 
     else
       render :action => "edit" 
