@@ -10,7 +10,7 @@ class BalancesController < ApplicationController
   end
 
   def balanced
-    @balances = Balance.balanced.order('created_at desc').paginate(default_paginate_options_without_created_at)
+    @balances = Balance.balanced.order('created_at desc').paginate default_paginate_options
   end
 
   def unbalanced
