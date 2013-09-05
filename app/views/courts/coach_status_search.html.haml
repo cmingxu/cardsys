@@ -44,7 +44,7 @@
         %td= index + 1
         %td= coach_book_record.coach.try(:name)
         %td= coach_book_record.order.member_name
-        %td= coach_book_record.start_time.to_chinese_mdh
+        %td= coach_book_record.start_time.try(:to_chinese_mdh)
         %td= coach_book_record.order.court_book_record.court.try(:name)
         %td
           = coach_book_record.start_time
